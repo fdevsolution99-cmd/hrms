@@ -158,7 +158,7 @@ const View = () => {
               </div>
               <div style={{flex: 1, textAlign: 'center', position: 'absolute', left: 0, right: 0}}>
                 <div style={{fontFamily: 'Times, serif', fontSize: '16px', fontWeight: 'bold', marginBottom: '2px'}}>FDEV SOLUTIONS PRIVATE LIMITED</div>
-                <div style={{fontFamily: 'Times, serif', fontSize: '10px', marginBottom: '2px'}}>Plot No 1/C, Syno 83/1, Raidurgam, Knowledge City Rd, Panmaktha, Hyderabad Telangana 500081</div>
+                <div style={{fontFamily: 'Times, serif', fontSize: '10px', marginBottom: '2px'}}>501, 5th floor, Veekay Prime, Patrika Nagar, Hi-Tech City, Hyderabad Telangana 500081</div>
                 <div style={{fontFamily: 'Times, serif', fontSize: '11px', fontWeight: 'bold'}}>Payslip for the month of {salary.month} {salary.year}</div>
               </div>
             </div>
@@ -271,8 +271,8 @@ const View = () => {
             {/* Footer */}
              <div className="mt-8 text-center">
                <div className="font-bold mb-1" style={{fontFamily: 'Times, serif', fontSize: '9px', color: '#0066cc'}}>FDEV SOLUTIONS PRIVATE LIMITED</div>
-               <div className="italic" style={{fontFamily: 'Times, serif', fontSize: '9px', fontStyle: 'italic', color: 'black'}}>Plot No 1/C, Syno 83/1, Raidurgam, Knowledge City Rd, Panmaktha</div>
-               <div className="italic" style={{fontFamily: 'Times, serif', fontSize: '9px', fontStyle: 'italic', color: 'black'}}>Hyderabad Telangana 500081 | Email: info@FDEV.com</div>
+               <div className="italic" style={{fontFamily: 'Times, serif', fontSize: '9px', fontStyle: 'italic', color: 'black'}}>501, 5th floor, Veekay Prime, Patrika Nagar, Hi-Tech City</div>
+               <div className="italic" style={{fontFamily: 'Times, serif', fontSize: '9px', fontStyle: 'italic', color: 'black'}}>Hyderabad Telangana 500081 | Email: hr@fdevsol.com</div>
              </div>
           </div>
         </div>
