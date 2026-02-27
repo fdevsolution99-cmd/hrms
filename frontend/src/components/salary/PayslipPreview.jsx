@@ -127,7 +127,7 @@ const PayslipPreview = ({ payslip, onClose, onSendEmail, onGenerate, loading }) 
               {/* Company Info - Center aligned */}
               <div className="flex-1 text-center">
                 <h1 className="text-lg font-bold" style={{ fontFamily: 'Times, serif' }}>FDEV SOLUTIONS PRIVATE LIMITED</h1>
-                <p className="text-sm">Plot No 1/C, Syno 83/1, Raidurgam, Knowledge City Rd, Panmaktha, Hyderabad Telangana 500081</p>
+                <p className="text-sm">501, 5th floor, Veekay Prime, Patrika Nagar, Hi-Tech City, Hyderabad Telangana 500081</p>
                 <h2 className="text-sm font-bold mt-1">Payslip for the month of {payslip.month} {payslip.year}</h2>
               </div>
               
@@ -290,10 +290,10 @@ const PayslipPreview = ({ payslip, onClose, onSendEmail, onGenerate, loading }) 
           <div className="text-center text-xs text-blue-600 border-t border-gray-300 pt-4">
             <div className="font-bold">FDEV SOLUTIONS PRIVATE LIMITED</div>
             <div className="italic text-black mt-1">
-              Plot No 1/C, Syno 83/1, Raidurgam, Knowledge City Rd, Panmaktha
+              501, 5th floor, Veekay Prime, Patrika Nagar, Hi-Tech City
             </div>
             <div className="italic text-black">
-              Hyderabad Telangana 500081 | Email: info@FDEV.com
+              Hyderabad Telangana 500081 | Email: hr@fdevsol.com
             </div>
           </div>
         </div>
