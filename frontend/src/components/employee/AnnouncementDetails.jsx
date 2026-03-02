@@ -17,7 +17,7 @@ const EmployeeAnnouncementDetails = () => {
     title: announcement?.title ? `${announcement.title} — Announcement` : 'Announcement — FDEV HRMS',
     description: announcement?.description || 'View announcement details.',
     keywords: 'announcement, employee, HRMS',
-    image: announcement?.imageUrl || '/images/Logo.jpg',
+    image: announcement?.imageUrl || '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow',
     type: 'article'

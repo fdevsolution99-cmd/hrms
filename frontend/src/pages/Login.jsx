@@ -26,7 +26,7 @@ const Login = () => {
     description: "Access your FDEV HRMS account to manage attendance, leaves, payslips and more.",
     keywords: "HRMS login, employee portal, FDEV",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
   });
 
   const validateEmail = (e) =>

@@ -49,7 +49,7 @@ const AdminSummary = () => {
     title: "Admin Overview — FDEV HRMS",
     description: "Quick stats across employees, departments and leaves.",
     keywords: "admin overview, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/admin-dashboard`
   });
   

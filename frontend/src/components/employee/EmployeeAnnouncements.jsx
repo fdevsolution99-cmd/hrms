@@ -18,7 +18,7 @@ const EmployeeAnnouncements = () => {
     description: "Latest company announcements for employees.",
     keywords: "announcements, employee, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     robots: "noindex,nofollow",
     type: "article"
   });

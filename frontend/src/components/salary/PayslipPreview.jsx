@@ -12,20 +12,7 @@ const PayslipPreview = ({ payslip, onClose, onSendEmail, onGenerate, loading }) 
   
   // Fetch logo on component mount
   useEffect(() => {
-    const fetchLogo = async () => {
-      try {
-        // Try to fetch the logo from the server assets
-        const logoPath = `${API_BASE}/assets/logo.png`;
-        const response = await fetch(logoPath);
-        if (response.ok) {
-          setLogoUrl(logoPath);
-        }
-      } catch (error) {
-        // Logo fetch failed, continue without logo
-      }
-    };
-    
-    fetchLogo();
+    setLogoUrl("/images/fdev.jpeg");
   }, []);
 
   useEffect(() => {

@@ -13,7 +13,7 @@ const Table = () => {
     title: "Leaves — FDEV HRMS",
     description: "Manage leave requests and statuses.",
     keywords: "leaves, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/admin-dashboard/leaves`,
     robots: "noindex,nofollow"
   });

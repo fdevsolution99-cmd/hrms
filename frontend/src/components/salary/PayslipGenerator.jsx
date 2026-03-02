@@ -16,7 +16,7 @@ const PayslipGenerator = () => {
     description: "Generate payslips for employees.",
     keywords: "payslip, payroll, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     robots: "noindex,nofollow"
   });
   const istNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));

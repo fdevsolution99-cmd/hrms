@@ -21,7 +21,7 @@ const AnnouncementView = () => {
     description: announcement?.description || "View announcement details.",
     keywords: "announcement, HRMS",
     url: canonical,
-    image: announcement?.imageUrl || "/images/Logo.jpg",
+    image: announcement?.imageUrl || "/images/fdev.jpeg",
     type: "article",
     robots: "noindex,nofollow",
     jsonLd: announcement && {
@@ -40,7 +40,7 @@ const AnnouncementView = () => {
         "name": "FDEV HRMS",
         "logo": {
           "@type": "ImageObject",
-          "url": "/images/Logo.jpg"
+          "url": "/images/fdev.jpeg"
         }
       },
       "mainEntityOfPage": canonical

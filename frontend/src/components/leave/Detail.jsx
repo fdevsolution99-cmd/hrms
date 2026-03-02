@@ -14,7 +14,7 @@ const Detail = () => {
     title: 'Leave Details — FDEV HRMS',
     description: 'Review and update a leave request.',
     keywords: 'leave details, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });

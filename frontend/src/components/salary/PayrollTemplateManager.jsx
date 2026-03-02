@@ -13,7 +13,7 @@ const PayrollTemplateManager = () => {
     title: "Payroll Templates — FDEV HRMS",
     description: "Create and manage payroll templates for employees.",
     keywords: "payroll templates, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: canonical,
     robots: "noindex,nofollow"
   });

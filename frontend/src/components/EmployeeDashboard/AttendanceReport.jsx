@@ -13,7 +13,7 @@ const AttendanceReport = () => {
     title: "Attendance Report — FDEV HRMS",
     description: "View daily and monthly attendance summaries.",
     keywords: "attendance report, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/employee-dashboard/attendance-report`,
     robots: "noindex,nofollow"
   });

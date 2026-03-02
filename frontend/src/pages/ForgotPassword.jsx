@@ -16,7 +16,7 @@ const ForgotPasswordPage = () => {
     description: "Reset your FDEV HRMS password securely via email.",
     keywords: "reset password, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
   });
 
   const handleSubmit = async (e) => {

@@ -10,7 +10,7 @@ const AdminAttendanceReport = () => {
     title: "Admin Attendance Report — FDEV HRMS",
     description: "Search and review attendance across employees.",
     keywords: "admin attendance, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/admin-dashboard/attendance-report`,
     robots: "noindex,nofollow"
   });

@@ -47,7 +47,7 @@ const EmployeeFeedback = () => {
     title: 'Feedback — FDEV HRMS',
     description: 'Submit and track your feedback and suggestions.',
     keywords: 'employee feedback, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: `${window.location.origin}/employee-dashboard/feedback`,
     robots: 'noindex,nofollow'
   });

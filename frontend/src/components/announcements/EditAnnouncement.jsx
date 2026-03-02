@@ -14,7 +14,7 @@ const EditAnnouncement = () => {
     description: "Update an existing company announcement.",
     keywords: "edit announcement, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     robots: "noindex,nofollow",
     type: "article"
   });

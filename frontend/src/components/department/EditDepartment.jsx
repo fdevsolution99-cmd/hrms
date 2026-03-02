@@ -15,7 +15,7 @@ const EditDepartment = () => {
     title: department?.dep_name ? `Edit ${department.dep_name} — Department` : 'Edit Department — FDEV HRMS',
     description: 'Update department details.',
     keywords: 'edit department, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });

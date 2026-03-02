@@ -12,7 +12,7 @@ const EmployeeDashboard = () => {
     description: 'View attendance, apply leave, access payslips and announcements.',
     keywords: 'employee dashboard, HRMS',
     url: canonical,
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     robots: 'noindex,nofollow'
   })
   return (

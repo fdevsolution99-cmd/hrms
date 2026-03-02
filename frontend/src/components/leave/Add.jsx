@@ -12,7 +12,7 @@ const Add = () => {
       title: 'Apply Leave — FDEV HRMS',
       description: 'Request leave with dates and type.',
       keywords: 'apply leave, HRMS',
-      image: '/images/Logo.jpg',
+      image: '/images/fdev.jpeg',
       url: `${window.location.origin}/employee-dashboard/add-leave`,
       robots: 'noindex,nofollow'
     });

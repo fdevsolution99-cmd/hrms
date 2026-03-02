@@ -31,7 +31,7 @@ const AnnouncementAdd = () => {
     description: "Publish a new company announcement.",
     keywords: "add announcement, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     robots: "noindex,nofollow",
     type: "article"
   });

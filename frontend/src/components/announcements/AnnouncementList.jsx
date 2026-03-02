@@ -48,7 +48,7 @@ const AnnouncementList = () => {
     description: "Browse and manage company announcements.",
     keywords: "announcements, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
   });
 
   useEffect(() => {

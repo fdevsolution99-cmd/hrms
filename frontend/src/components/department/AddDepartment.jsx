@@ -10,7 +10,7 @@ const AddDepartment = () => {
     title: "Add Department — FDEV HRMS",
     description: "Create a new department record.",
     keywords: "add department, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/admin-dashboard/add-department`,
     robots: "noindex,nofollow"
   });

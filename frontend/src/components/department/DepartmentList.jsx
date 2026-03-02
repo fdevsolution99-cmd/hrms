@@ -12,7 +12,7 @@ const DepartmentList = () => {
     title: "Departments — FDEV HRMS",
     description: "Manage and search departments.",
     keywords: "departments, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/admin-dashboard/departments`,
     robots: "noindex,nofollow"
   });

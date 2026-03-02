@@ -21,7 +21,7 @@ const Setting = () => {
     title: "Settings — FDEV HRMS",
     description: "Update your account password and preferences.",
     keywords: "settings, account, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/employee-dashboard/setting`,
     robots: "noindex,nofollow"
   });

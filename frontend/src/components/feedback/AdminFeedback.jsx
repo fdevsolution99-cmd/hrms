@@ -55,7 +55,7 @@ const AdminFeedback = () => {
     title: 'Admin Feedback — FDEV HRMS',
     description: 'Review and respond to employee feedback.',
     keywords: 'admin feedback, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: `${window.location.origin}/admin-dashboard/feedback`,
     robots: 'noindex,nofollow'
   });

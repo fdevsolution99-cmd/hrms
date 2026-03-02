@@ -18,7 +18,7 @@ const List = () => {
     title: 'My Leaves — FDEV HRMS',
     description: 'View and manage your leave applications.',
     keywords: 'leaves, employee, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });

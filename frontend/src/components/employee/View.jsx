@@ -16,7 +16,7 @@ const View = () => {
     title: employee?.userId?.name ? `${employee.userId.name} — Employee` : 'Employee — FDEV HRMS',
     description: employee?.designation ? `${employee.designation} in ${employee?.department?.dep_name || ''}` : 'Employee profile and details.',
     keywords: 'employee profile, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });

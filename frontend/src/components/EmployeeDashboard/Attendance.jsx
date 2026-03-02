@@ -226,7 +226,7 @@ const Attendance = () => {
     title: "Attendance — FDEV HRMS",
     description: "Mark in/out, track breaks and view current location.",
     keywords: "attendance, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: `${window.location.origin}/employee-dashboard/attendance`,
     robots: "noindex,nofollow"
   });

@@ -15,7 +15,7 @@ const List = () => {
       title: 'Employees — FDEV HRMS',
       description: 'Browse and manage employee records.',
       keywords: 'employees, HRMS',
-      image: '/images/Logo.jpg',
+      image: '/images/fdev.jpeg',
       url: `${window.location.origin}/admin-dashboard/employees`,
       robots: 'noindex,nofollow'
     })

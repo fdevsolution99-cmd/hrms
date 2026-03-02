@@ -23,7 +23,7 @@ const PayslipHistory = () => {
     title: "Payslip History — FDEV HRMS",
     description: "Filter and review generated payslips.",
     keywords: "payslip history, payroll, HRMS",
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
     url: canonical,
     robots: "noindex,nofollow"
   });

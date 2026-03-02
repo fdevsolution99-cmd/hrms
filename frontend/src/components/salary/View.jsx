@@ -19,7 +19,7 @@ const View = () => {
     title: 'Salary — FDEV HRMS',
     description: 'View salary details and payslips.',
     keywords: 'salary, payslip, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });
@@ -146,7 +146,7 @@ const View = () => {
             <div style={{border: '1px solid black', height: '70px', display: 'flex', alignItems: 'center', position: 'relative'}}>
               <div style={{width: '70px', height: '66px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px', marginLeft: '10px'}}>
                 <img 
-                  src="https://media.licdn.com/dms/image/v2/C4E0BAQFCeV7EWFY7mA/company-logo_200_200/company-logo_200_200/0/1660829823147?e=2147483647&v=beta&t=dqXv3GOH9QultP_4TbKdVXsdUJNBs6R0V80OPMDRWbA" 
+                  src="/images/fdev.jpeg" 
                   alt="FDEV Logo" 
                   style={{width: '70px', height: 'auto', maxHeight: '66px', objectFit: 'contain'}}
                   onError={(e) => {

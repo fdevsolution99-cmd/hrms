@@ -104,7 +104,7 @@ const AdminSidebar = () => {
        <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-teal-600 h-16 flex items-center justify-center shadow-md px-5">
   {/* Logo Image */}
   <img 
-    src="/images/Logo.jpg"
+    src="/images/fdev.jpeg"
     alt="Company Logo" 
     loading="lazy"
     width="48"

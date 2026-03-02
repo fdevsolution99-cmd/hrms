@@ -33,7 +33,7 @@ const Summary = () => {
     title: 'Employee Overview — FDEV HRMS',
     description: 'Personal dashboard with quick actions and monthly stats.',
     keywords: 'employee overview, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: `${window.location.origin}/employee-dashboard`
   })
 

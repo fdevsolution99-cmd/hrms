@@ -15,7 +15,7 @@ const Profile = () => {
     title: employee?.userId?.name ? `${employee.userId.name} — Profile` : 'My Profile — FDEV HRMS',
     description: 'View your personal details and employment information.',
     keywords: 'profile, HRMS',
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     url: canonical,
     robots: 'noindex,nofollow'
   });

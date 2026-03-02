@@ -19,7 +19,7 @@ export default function ResetPassword() {
     description: "Create a new password for your FDEV HRMS account.",
     keywords: "reset password, HRMS",
     url: canonical,
-    image: "/images/Logo.jpg",
+    image: "/images/fdev.jpeg",
   });
  
   const handleSubmit = async (e) => {

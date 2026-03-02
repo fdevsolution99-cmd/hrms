@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     description: 'Manage employees, departments, announcements, attendance and payroll.',
     keywords: 'HRMS admin, payroll, attendance, employees',
     url: canonical,
-    image: '/images/Logo.jpg',
+    image: '/images/fdev.jpeg',
     robots: 'noindex,nofollow'
   })
   return (
