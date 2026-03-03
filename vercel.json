@@ -3,19 +3,12 @@
     {
       "source": "/api/:path*",
       "destination": "https://hrms-ctqu.onrender.com/api/:path*"
-    }
-  ],
-  "routes": [
-    {
-      "src": "^/[^.]+$",
-      "dest": "/frontend/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/frontend/index.html"
+      "source": "/(.*)",
+      "destination": "/frontend/index.html"
     }
   ],
   "cleanUrls": true,
   "trailingSlash": false
 }
-
