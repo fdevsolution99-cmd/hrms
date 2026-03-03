@@ -9,16 +9,21 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://hrms-ctqu.onrender.com/api/$1"
+      "source": "/api/(.*)",
+      "destination": "https://hrms-ctqu.onrender.com/api/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
 }
