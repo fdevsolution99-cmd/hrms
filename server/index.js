@@ -41,7 +41,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://hrms-bice-two.vercel.app"
+  "https://hrms-nine-opal.vercel.app"
 ].filter(Boolean);
 
 app.use(
