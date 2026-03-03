@@ -11,22 +11,24 @@ const authContext = ({ children }) => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const response = await axios.get(
-            `${API_BASE}/api/auth/verify`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+        if (typeof window !== 'undefined') {
+          const token = localStorage.getItem("token");
+          if (token) {
+            const response = await axios.get(
+              `${API_BASE}/api/auth/verify`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            if (response.data.success) {
+              setUser(response.data.user);
             }
-          );
-          if (response.data.success) {
-            setUser(response.data.user);
+          } else {
+            setUser(null);
+            setLoading(false)
           }
-        } else {
-          setUser(null);
-          setLoading(false)
         }
       } catch (error) {
         if (error.response && !error.response.data.error) {
