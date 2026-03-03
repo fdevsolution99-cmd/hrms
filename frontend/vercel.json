@@ -7,8 +7,14 @@
   ],
   "routes": [
     {
-      "src": "/[^.]+",
+      "src": "^/[^.]+$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }

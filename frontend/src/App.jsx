@@ -69,7 +69,7 @@ function App() {
       <Routes>
         {/* Redirect root to Login */}
         <Route path="/" element={<Navigate to="https://hrms-nine-opal.vercel.app/login" replace />} />
- 
+
         {/* Auth Routes */}
         <Route path="https://hrms-nine-opal.vercel.app/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />}></Route>
