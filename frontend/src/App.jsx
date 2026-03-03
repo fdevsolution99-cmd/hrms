@@ -71,7 +71,7 @@ function App() {
         <Route path="/" element={<Navigate to="https://hrms-nine-opal.vercel.app/login" replace />} />
  
         {/* Auth Routes */}
-        <Route path="login" element={<Login />} />
+        <Route path="https://hrms-nine-opal.vercel.app/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
 
@@ -79,7 +79,7 @@ function App() {
  
         {/* Admin Dashboard */}
         <Route
-          path="admin-dashboard"
+          path="https://hrms-nine-opal.vercel.app/admin-dashboard"
           element={
             <PrivateRoutes>
               <RoleBaseRoutes requiredRole={["admin"]}>
