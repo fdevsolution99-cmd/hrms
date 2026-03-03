@@ -2,8 +2,8 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/vite.config.js",
-      "use": "@vercel/vite"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build"
     },
     {
       "src": "server/index.js",
@@ -11,7 +11,13 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server/index.js" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/:match*",
+      "destination": "/server/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
