@@ -18,7 +18,7 @@
     "@aws-sdk/lib-dynamodb": "^3.888.0",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.11.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "exceljs": "^4.4.0",
@@ -35,6 +35,5 @@
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0"
   },
-  "description": "",
-  "devDependencies": {}
+  "description": ""
 }
