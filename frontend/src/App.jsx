@@ -63,12 +63,23 @@ function App() {
     });
     return () => cancel(id);
   }, []);
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<div className="p-6 text-center text-gray-600">Loading...</div>}>
-      <Routes>
-        {/* Redirect root to Login */}
-        <Route path="/" element={<Navigate to="login" replace />} />
+
+  // Handle base URL for different environments
+  const getBaseUrl = () => {
+    if (process.env.NODE_ENV === 'production') {
+      // For Vercel deployment, the app might be at a subpath
+      return window.location.pathname.split('/').slice(0, -1).join('/') + '/';
+    }
+    return '/';
+  };
+
+  const baseUrl = getBaseUrl();
+return (
+  <BrowserRouter basename={baseUrl}>
+    <Suspense fallback={<div className="p-6 text-center text-gray-600">Loading...</div>}>
+    <Routes>
+      {/* Redirect root to Login */}
+      <Route path="/" element={<Navigate to="login" replace />} />
 
         {/* Auth Routes */}
         <Route path="login" element={<Login />} />
