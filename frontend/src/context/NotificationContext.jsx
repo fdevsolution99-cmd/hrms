@@ -29,23 +29,27 @@ export const NotificationProvider = ({ children }) => {
       // Create socket connection
       socketRef.current = io(API_BASE, {
         withCredentials: true,
-        transports: ['websocket', 'polling']
+        transports: ['websocket', 'polling'],
+        autoConnect: true
       });
 
       const socket = socketRef.current;
 
       socket.on('connect', () => {
+        console.log('Socket connected successfully:', socket.id);
         setIsConnected(true);
         // Join user's personal notification room
         socket.emit('join', user._id);
       });
 
-      socket.on('disconnect', () => {
+      socket.on('disconnect', (reason) => {
+        console.log('Socket disconnected:', reason);
         setIsConnected(false);
       });
 
       // Listen for new notifications
       socket.on('notification', (notification) => {
+        console.log('New notification received:', notification);
         setNotifications(prev => [notification, ...prev]);
         setUnreadCount(prev => prev + 1);
         
@@ -59,12 +63,31 @@ export const NotificationProvider = ({ children }) => {
       });
 
       socket.on('connect_error', (error) => {
+        console.error('Socket connection error:', error);
         setIsConnected(false);
       });
 
+      socket.on('error', (error) => {
+        console.error('Socket error:', error);
+      });
+
       return () => {
-        socket.disconnect();
+        if (socket) {
+          socket.off('connect');
+          socket.off('disconnect');
+          socket.off('notification');
+          socket.off('connect_error');
+          socket.off('error');
+          socket.disconnect();
+        }
       };
+    } else {
+      // Clean up socket if user is not authenticated
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+      setIsConnected(false);
     }
   }, [user]);
 

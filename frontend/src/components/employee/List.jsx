@@ -76,11 +76,12 @@ const List = () => {
 
       const handleStatusChange = useCallback((employeeId, newStatus) => {
         const serverStatus = newStatus.toLowerCase();
-        setEmployees(prevEmployees => 
-          prevEmployees.map(emp => 
+        setEmployees(prevEmployees => {
+          const updatedEmployees = prevEmployees.map(emp => 
             emp._id === employeeId ? { ...emp, status: serverStatus } : emp
-          )
-        );
+          );
+          return updatedEmployees;
+        });
       }, [])
 
       const filteredEmployee = useMemo(() => {

@@ -68,10 +68,10 @@ function App() {
       <Suspense fallback={<div className="p-6 text-center text-gray-600">Loading...</div>}>
       <Routes>
         {/* Redirect root to Login */}
-        <Route path="/" element={<Navigate to="https://hrms-nine-opal.vercel.app/login" replace />} />
+        <Route path="/" element={<Navigate to="login" replace />} />
 
         {/* Auth Routes */}
-        <Route path="https://hrms-nine-opal.vercel.app/login" element={<Login />} />
+        <Route path="login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
 
@@ -79,7 +79,7 @@ function App() {
  
         {/* Admin Dashboard */}
         <Route
-          path="https://hrms-nine-opal.vercel.app/admin-dashboard"
+          path="admin-dashboard"
           element={
             <PrivateRoutes>
               <RoleBaseRoutes requiredRole={["admin"]}>
