@@ -1,12 +1,22 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "https://hrms-ctqu.onrender.com/api/:path*"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://hrms-ctqu.onrender.com/api/$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/frontend/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "cleanUrls": true,
