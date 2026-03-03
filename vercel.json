@@ -6,7 +6,8 @@
     },
     {
       "source": "/:path*",
-      "destination": "/index.html"
+      "destination": "/frontend/index.html"
     }
   ]
 }
+
