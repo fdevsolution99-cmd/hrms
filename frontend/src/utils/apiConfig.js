@@ -1,10 +1,21 @@
-// src/utils/apiConfig.js
+import axios from "axios";
 
-// Export the API base URL, falling back to local backend if env is not set
-export const API_BASE = import.meta.env.VITE_API_URL || '';
+export const API_BASE =
+  import.meta.env.VITE_API_URL || "https://hrms-ctqu.onrender.com";
 
-// Helper function to get auth headers
-export const getAuthHeaders = () => {
+const api = axios.create({
+  baseURL: `${API_BASE}/api`,
+  withCredentials: true
+});
+
+api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+export default api;

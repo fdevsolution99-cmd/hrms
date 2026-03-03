@@ -1,19 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build"
-    },
-    {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "rewrites": [
     {
-      "source": "/api/:match*",
-      "destination": "https://hrms-ctqu.onrender.com/api/:match*"
+      "source": "/api/(.*)",
+      "destination": "https://hrms-ctqu.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",

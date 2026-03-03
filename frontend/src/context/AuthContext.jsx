@@ -1,60 +1,55 @@
-import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { API_BASE } from "../utils/apiConfig";
+import api from "../utils/apiConfig";
 
-const userContext = createContext();
+const UserContext = createContext();
 
-const authContext = ({ children }) => {
+const AuthContext = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        if (typeof window !== 'undefined') {
-          const token = localStorage.getItem("token");
-          if (token) {
-            const response = await axios.get(
-              `${API_BASE}/api/auth/verify`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            if (response.data.success) {
-              setUser(response.data.user);
-            }
-          } else {
-            setUser(null);
-            setLoading(false)
-          }
-        }
-      } catch (error) {
-        if (error.response && !error.response.data.error) {
-          setUser(null);
-        }
-      } finally {
+  const verifyUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
         setLoading(false);
+        return;
       }
-    };
+
+      const res = await api.get("/auth/verify");
+
+      if (res.data.success) {
+        setUser(res.data.user);
+      } else {
+        setUser(null);
+      }
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     verifyUser();
   }, []);
 
-  const login = (user) => {
-    setUser(user);
+  const login = (userData, token) => {
+    localStorage.setItem("token", token);
+    setUser(userData);
   };
 
   const logout = () => {
-    setUser(null);
     localStorage.removeItem("token");
+    setUser(null);
   };
+
   return (
-    <userContext.Provider value={{ user, login, logout, loading }}>
+    <UserContext.Provider value={{ user, login, logout, loading }}>
       {children}
-    </userContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(userContext);
-export default authContext;
+export const useAuth = () => useContext(UserContext);
+export default AuthContext;
