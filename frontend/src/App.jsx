@@ -68,7 +68,7 @@ function App() {
       <Suspense fallback={<div className="p-6 text-center text-gray-600">Loading...</div>}>
       <Routes>
         {/* Redirect root to Login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="https://hrms-nine-opal.vercel.app/login" replace />} />
  
         {/* Auth Routes */}
         <Route path="login" element={<Login />} />
