@@ -5,14 +5,14 @@ import connectToDatabase from './db/db.js'
 const userRegister = async () => {
     await connectToDatabase()
     try {
-        const existingUser = await User.findOne({ email: "samyukthak3333@gmail.com" })
+        const existingUser = await User.findOne({ email: "admin@fdevsol.com" })
         if (existingUser) {
             console.log("Admin user already exists")
         } else {
-            const hashPassword = await bcrypt.hash("Samu0228", 10)
+            const hashPassword = await bcrypt.hash("Admin@fdevsol", 10)
             const newUser = new User({
                 name: "Admin",
-                email: "samyukthak3333@gmail.com",
+                email: "admin@fdevsol.com",
                 password: hashPassword,
                 role: "admin"
             })
