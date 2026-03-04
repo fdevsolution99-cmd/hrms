@@ -55,37 +55,44 @@ const addEmployee = async (req, res) => {
 
     // === Send Welcome Email ===
     const emailHtml = `
-      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-        <p>Dear ${name},</p>
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
+        <h2 style="color: #000;">Welcome to the FDEV SOLUTION PVT LTD 🎉</h2>
+        <p>Dear <b>${name}</b>,</p>
         
-        <p>Greetings from <b>Fdev Solutions Pvt Ltd</b>.</p>
+        <p>We are delighted to welcome you to FDEV Solution Pvt Ltd. We are excited to have you onboard as <b>${designation}</b> and look forward to working together towards achieving great success.</p>
         
-        <p>We are pleased to provide you with your official email account credentials.<br/>
-        Please find the details below:</p>
-        
+        <p>Your login credentials are:</p>
         <p>
-          <b>Email Address (Username):</b> <a href="mailto:${email}" style="color: #0066cc;">${email}</a><br/>
-          <b>Temporary Password:</b> ${password}<br/>
-          <b>Webmail Login URL:</b> <a href="https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi" style="color: #0066cc;">https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi</a>
+          Email: <a href="mailto:${email}" style="color: #0066cc; text-decoration: none;">${email}</a><br/>
+          Password: <b>${password}</b>
         </p>
+
+        <p>Use the same credentials to log in to both the HRMS portal (attendance, payslip, leaves, and more) and your official company email (Webmail).</p>
         
-        <p>Kindly log in using the above credentials and change your password immediately for security purposes.</p>
+        <p>You can login to the system using the following link:</p>
+        <p>
+          <a href="https://hrms-theta-cyan.vercel.app" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Login to FDEV HRMS</a>
+        </p>
+        <p style="font-size: 0.9em;">Or copy and paste this URL in your browser: <a href="https://hrms-theta-cyan.vercel.app" style="color: #0066cc;">https://hrms-theta-cyan.vercel.app</a></p>
+
+        <p>Access your official company webmail:</p>
+        <p>
+          <a href="https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi" style="background-color: #00a040; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Open Webmail</a>
+        </p>
+        <p style="font-size: 0.9em;">Or copy and paste this URL in your browser: <a href="https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi" style="color: #0066cc;">https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi</a></p>
         
-        <p>This email account will be used for all official communication within the organization. Please ensure that you maintain confidentiality and use it responsibly in accordance with company policies.</p>
+        <p>We believe your skills and talent will be a great addition to our team. Together, we look forward to achieving new milestones and building a bright future.</p>
         
-        <p>If you face any issues accessing your account, please contact the IT/HR department at <a href="mailto:hr@fdevsol.com" style="color: #0066cc;">hr@fdevsol.com</a>.</p>
+        <p>Once again, welcome aboard!</p>
         
-        <p>We welcome you to Fdev Solutions Pvt Ltd and wish you success in your role.</p>
-        
-        <p>Best regards,<br/>
-        <b>HR Department</b><br/>
-        Fdev Solutions Pvt Ltd<br/>
-        Email: <a href="mailto:hr@fdevsol.com" style="color: #0066cc;">hr@fdevsol.com</a><br/>
-        Website: <a href="https://www.fdevsol.com" style="color: #0066cc;">www.fdevsol.com</a></p>
+        <p style="margin-top: 30px;">
+          Best regards,<br/>
+          HR Team
+        </p>
       </div>
     `;
 
-    sendEmail(email, "Your Official Email Account Credentials - Fdev Solutions Pvt Ltd", emailHtml);
+    sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml);
 
     return res
       .status(200)
