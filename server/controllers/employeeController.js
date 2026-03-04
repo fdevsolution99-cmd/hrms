@@ -2,7 +2,7 @@ import Employee from "../models/Employee.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
- 
+
 // Add new employee
 const addEmployee = async (req, res) => {
   try {
@@ -19,7 +19,7 @@ const addEmployee = async (req, res) => {
       password,
       role,
     } = req.body;
- 
+
     // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -27,9 +27,9 @@ const addEmployee = async (req, res) => {
         .status(400)
         .json({ success: false, error: "User already exists" });
     }
- 
+
     const hashedPassword = await bcrypt.hash(password, 10);
- 
+
     // Save user
     const newUser = new User({
       name,
@@ -38,7 +38,7 @@ const addEmployee = async (req, res) => {
       role,
     });
     const savedUser = await newUser.save();
- 
+
     // Save employee
     const newEmployee = new Employee({
       userId: savedUser._id,
@@ -50,40 +50,43 @@ const addEmployee = async (req, res) => {
       designation,
       department,
     });
- 
+
     await newEmployee.save();
- 
+
     // === Send Welcome Email ===
     const emailHtml = `
-      <h2>Welcome to the FDEV SOLUTION PVT LTD 🎉</h2>
-      <p>Dear <b>${name}</b>,</p>
-      <p>We are delighted to welcome you to FDEV Solution Pvt Ltd. We are excited to have you onboard as <b>${designation}</b> and look forward to working together towards achieving great success.
-      </p>
-      <p>Your login credentials are:</p>
-      <p>Email: <b>${email}</b></p>
-      <p>Password: <b>${password}</b></p>
-      <p>Use the same credentials to log in to both the HRMS portal (attendance, payslip, leaves, and more) and your official company email (Webmail).</p>
-      
-      <p>You can login to the system using the following link:</p>
-      <p><a href="https://www.FDEVhrms.com/" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 10px 0;">Login to FDEV HRMS</a></p>
-      <p>Or copy and paste this URL in your browser: <b>https://www.FDEVhrms.com/</b></p>
-
-      <p>Access your official company webmail:</p>
-      <p><a href="https://webmail.FDEV.com/" style="background-color: #16a34a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 10px 0;">Open Webmail</a></p>
-      <p>Or copy and paste this URL in your browser: <b>https://webmail.FDEV.com/</b></p>
-
-      <p>
-We believe your skills and talent will be a great addition to our team. Together, we look forward to achieving new milestones and building a bright future.
-</p>
-      <br/>
-      <p>Once again, welcome aboard! </p>
-      <br/>
-      <p>Best regards,<br/>HR Team </p>
-      <p><strong>FDEV SOLUTIONS PVT LTD<strong/></p>
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+        <p>Dear ${name},</p>
+        
+        <p>Greetings from <b>Fdev Solutions Pvt Ltd</b>.</p>
+        
+        <p>We are pleased to provide you with your official email account credentials.<br/>
+        Please find the details below:</p>
+        
+        <p>
+          <b>Email Address (Username):</b> <a href="mailto:${email}" style="color: #0066cc;">${email}</a><br/>
+          <b>Temporary Password:</b> ${password}<br/>
+          <b>Webmail Login URL:</b> <a href="https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi" style="color: #0066cc;">https://sg2plzcpnl509545.prod.sin2.secureserver.net:2096/webmaillogout.cgi</a>
+        </p>
+        
+        <p>Kindly log in using the above credentials and change your password immediately for security purposes.</p>
+        
+        <p>This email account will be used for all official communication within the organization. Please ensure that you maintain confidentiality and use it responsibly in accordance with company policies.</p>
+        
+        <p>If you face any issues accessing your account, please contact the IT/HR department at <a href="mailto:hr@fdevsol.com" style="color: #0066cc;">hr@fdevsol.com</a>.</p>
+        
+        <p>We welcome you to Fdev Solutions Pvt Ltd and wish you success in your role.</p>
+        
+        <p>Best regards,<br/>
+        <b>HR Department</b><br/>
+        Fdev Solutions Pvt Ltd<br/>
+        Email: <a href="mailto:hr@fdevsol.com" style="color: #0066cc;">hr@fdevsol.com</a><br/>
+        Website: <a href="https://www.fdevsol.com" style="color: #0066cc;">www.fdevsol.com</a></p>
+      </div>
     `;
 
-    sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml);
- 
+    sendEmail(email, "Your Official Email Account Credentials - Fdev Solutions Pvt Ltd", emailHtml);
+
     return res
       .status(200)
       .json({ success: true, message: "Employee created & Welcome email sent" });
@@ -94,7 +97,7 @@ We believe your skills and talent will be a great addition to our team. Together
       .json({ success: false, error: "Server error in adding employee" });
   }
 };
- 
+
 // Get all employees
 const getEmployees = async (req, res) => {
   try {
@@ -109,7 +112,7 @@ const getEmployees = async (req, res) => {
       .json({ success: false, error: "Get employees server error" });
   }
 };
- 
+
 // Get single employee
 const getEmployee = async (req, res) => {
   try {
@@ -117,19 +120,19 @@ const getEmployee = async (req, res) => {
     let employee = await Employee.findById(id)
       .populate("userId", { password: 0 })
       .populate("department");
- 
+
     if (!employee) {
       employee = await Employee.findOne({ userId: id })
         .populate("userId", { password: 0 })
         .populate("department");
     }
- 
+
     if (!employee) {
       return res
         .status(404)
         .json({ success: false, error: "Employee not found" });
     }
- 
+
     return res.status(200).json({ success: true, employee });
   } catch (error) {
     console.error(error);
@@ -138,29 +141,29 @@ const getEmployee = async (req, res) => {
       .json({ success: false, error: "Get employee server error" });
   }
 };
- 
+
 // Update employee
 const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, employeeId, dob, gender, mobilenumber, designation, department, role, salary, joiningDate } = req.body;
- 
+
     const employee = await Employee.findById(id);
     if (!employee) {
       return res
         .status(404)
         .json({ success: false, error: "Employee not found" });
     }
- 
+
     const user = await User.findById(employee.userId);
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
- 
+
     // Update user
     const updatedUserData = { name, email };
     await User.findByIdAndUpdate(user._id, updatedUserData);
- 
+
     // Update employee
     await Employee.findByIdAndUpdate(id, {
       employeeId,
@@ -172,7 +175,7 @@ const updateEmployee = async (req, res) => {
       role,
       joiningDate,
     });
- 
+
     return res.status(200).json({ success: true, message: "Employee updated" });
   } catch (error) {
     console.error(error);
@@ -181,7 +184,7 @@ const updateEmployee = async (req, res) => {
       .json({ success: false, error: "Update employee server error" });
   }
 };
- 
+
 // Get employees by department
 const fetchEmployeesByDepId = async (req, res) => {
   try {
@@ -196,16 +199,16 @@ const fetchEmployeesByDepId = async (req, res) => {
     });
   }
 };
- 
+
 // Get employee by ID or Name for auto-fetch
 const getEmployeeByIdOrName = async (req, res) => {
   try {
     const { employeeId, employeeName } = req.query;
-   
+
     if (!employeeId && !employeeName) {
       return res.status(400).json({ success: false, error: "Either employeeId or employeeName is required" });
     }
- 
+
     let employee;
     if (employeeId) {
       employee = await Employee.findOne({ employeeId }).populate('userId', 'name');
@@ -215,11 +218,11 @@ const getEmployeeByIdOrName = async (req, res) => {
         employee = await Employee.findOne({ userId: user._id }).populate('userId', 'name');
       }
     }
- 
+
     if (!employee) {
       return res.status(404).json({ success: false, error: "Employee not found" });
     }
- 
+
     return res.status(200).json({
       success: true,
       employee: {
@@ -232,7 +235,7 @@ const getEmployeeByIdOrName = async (req, res) => {
     return res.status(500).json({ success: false, error: "Server error" });
   }
 };
- 
+
 // Update employee status
 const updateEmployeeStatus = async (req, res) => {
   try {
@@ -240,34 +243,34 @@ const updateEmployeeStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!status || !['active', 'inactive'].includes(status)) {
-      return res.status(400).json({ 
-        success: false, 
-        error: "Status must be either 'active' or 'inactive'" 
+      return res.status(400).json({
+        success: false,
+        error: "Status must be either 'active' or 'inactive'"
       });
     }
 
     const employee = await Employee.findById(id);
     if (!employee) {
-      return res.status(404).json({ 
-        success: false, 
-        error: "Employee not found" 
+      return res.status(404).json({
+        success: false,
+        error: "Employee not found"
       });
     }
 
-    await Employee.findByIdAndUpdate(id, { 
-      status, 
-      updatedAt: new Date() 
+    await Employee.findByIdAndUpdate(id, {
+      status,
+      updatedAt: new Date()
     });
 
-    return res.status(200).json({ 
-      success: true, 
-      message: `Employee status updated to ${status}` 
+    return res.status(200).json({
+      success: true,
+      message: `Employee status updated to ${status}`
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      success: false, 
-      error: "Update employee status server error" 
+    return res.status(500).json({
+      success: false,
+      error: "Update employee status server error"
     });
   }
 };
