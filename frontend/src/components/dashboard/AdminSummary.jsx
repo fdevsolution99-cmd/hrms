@@ -66,26 +66,41 @@ const AdminSummary = () => {
   // Daily message (rotates by day-of-year)
   const dailyQuote = useMemo(() => getAdminDailyMessage(), []);
 
-  useEffect(() => {
-    const fetchSummary = async () => {
-      try {
-        const summary = await axios.get(
-          `${API_BASE}/api/dashboard/summary`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setSummary(summary.data);
-      } catch (error) {
-        if (error.response) {
-          alert(error.response.data.error);
+  // Function to fetch summary
+  const fetchSummary = async () => {
+    try {
+      const summary = await axios.get(
+        `${API_BASE}/api/dashboard/summary`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-
+      );
+      setSummary(summary.data);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.error);
       }
-    };
+
+    }
+  };
+
+  useEffect(() => {
     fetchSummary();
+    
+    // Listen for employee list updates (add/delete)
+    const handleEmployeeUpdate = () => {
+      fetchSummary();
+    };
+    
+    window.addEventListener('employeeListUpdated', handleEmployeeUpdate);
+    window.addEventListener('employeeAdded', handleEmployeeUpdate);
+    
+    return () => {
+      window.removeEventListener('employeeListUpdated', handleEmployeeUpdate);
+      window.removeEventListener('employeeAdded', handleEmployeeUpdate);
+    };
   }, []);
 
   if (!summary) {

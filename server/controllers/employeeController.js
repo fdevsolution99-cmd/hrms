@@ -288,6 +288,44 @@ const updateEmployeeStatus = async (req, res) => {
   }
 };
 
+// Delete employee
+const deleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the employee first
+    const employee = await Employee.findById(id);
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        error: "Employee not found"
+      });
+    }
+
+    // Get the userId before deleting the employee
+    const userId = employee.userId;
+
+    // Delete the employee record
+    await Employee.findByIdAndDelete(id);
+
+    // Also delete the associated user
+    if (userId) {
+      await User.findByIdAndDelete(userId);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee deleted successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      error: "Delete employee server error"
+    });
+  }
+};
+
 export {
   addEmployee,
   getEmployees,
@@ -296,4 +334,5 @@ export {
   updateEmployeeStatus,
   fetchEmployeesByDepId,
   getEmployeeByIdOrName,
+  deleteEmployee,
 };

@@ -78,6 +78,8 @@ const Add = () => {
       );
       if (response.data.success) {
         alert("Employee added successfully!");
+        // Dispatch event to notify dashboard to refresh
+        window.dispatchEvent(new CustomEvent('employeeAdded'));
         navigate("/admin-dashboard/employees");
       }
     } catch (error) {

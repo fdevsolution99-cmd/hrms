@@ -23,50 +23,57 @@ const List = () => {
   const [empLoading, setEmpLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
+  // Function to fetch employees
+  const fetchEmployees = async () => {
+    setEmpLoading(true)
+    try {
+      const responnse = await axios.get(
+        `${API_BASE}/api/employee?t=${Date.now()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (responnse.data.success) {
+        let sno = 1;
+        const data = responnse.data.employees.map((emp) => {
+          return {
+            _id: emp._id,
+            sno: sno++,
+            employeeId: emp.employeeId,
+            dep_name: emp.department ? emp.department.dep_name : "N/A",
+            name: emp.userId ? emp.userId.name : "N/A",
+            email: emp.userId ? emp.userId.email : "N/A",
+            designation: emp.designation,
+            dob: formatDMY(emp.dob),
+            joiningDate: emp.joiningDate ? formatDMY(emp.joiningDate) : 'N/A',
+            mobilenumber: emp.mobilenumber || 'N/A',
+            status: emp.status || 'active',
+            onStatusChange: handleStatusChange,
+            action: (<EmployeeButtons Id={emp._id} onDelete={handleEmployeeDelete} />),
+          };
+        });
+        setEmployees(data);
+      }
+    } catch (error) {
+
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error)
+      }
+    } finally {
+      setEmpLoading(false)
+    }
+  };
+
+  // Handle employee deletion - refresh list after delete
+  const handleEmployeeDelete = () => {
+    fetchEmployees();
+    // Trigger a custom event to notify dashboard to refresh
+    window.dispatchEvent(new CustomEvent('employeeListUpdated'));
+  };
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      setEmpLoading(true)
-      try {
-        const responnse = await axios.get(
-          `${API_BASE}/api/employee?t=${Date.now()}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (responnse.data.success) {
-          let sno = 1;
-          const data = responnse.data.employees.map((emp) => {
-            return {
-              _id: emp._id,
-              sno: sno++,
-              employeeId: emp.employeeId,
-              dep_name: emp.department ? emp.department.dep_name : "N/A",
-              name: emp.userId ? emp.userId.name : "N/A",
-              email: emp.userId ? emp.userId.email : "N/A",
-              designation: emp.designation,
-              dob: formatDMY(emp.dob),
-              joiningDate: emp.joiningDate ? formatDMY(emp.joiningDate) : 'N/A',
-              mobilenumber: emp.mobilenumber || 'N/A',
-              status: emp.status || 'active',
-              onStatusChange: handleStatusChange,
-              action: (<EmployeeButtons Id={emp._id} />),
-            };
-          });
-          setEmployees(data);
-        }
-      } catch (error) {
-
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error)
-        }
-      } finally {
-        setEmpLoading(false)
-      }
-    };
-
     fetchEmployees();
   }, []);
 
@@ -286,7 +293,7 @@ const List = () => {
                         {/* Action Buttons */}
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-gray-600">Actions:</span>
-                          <EmployeeButtons Id={employee._id} />
+                          <EmployeeButtons Id={employee._id} onDelete={handleEmployeeDelete} />
                         </div>
                       </div>
                     </div>
