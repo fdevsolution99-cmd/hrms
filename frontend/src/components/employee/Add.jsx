@@ -76,9 +76,9 @@ const Add = () => {
           },
         }
       );
-      if (response.data.success) {
-        navigate("/admin-dashboard/employees");
-      }
+if (response.data.success) {
+  alert("Employee added successfully!");
+}
     } catch (error) {
       if (error.response && !error.response.data.success) {
         alert(error.response.data.error);
