@@ -41,9 +41,9 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://hrms-drab-five.vercel.app/",
+  "https://hrms-drab-five.vercel.app",
   "https://hrms-ctqu.onrender.com"
-].filter(Boolean);
+].filter(Boolean).map(origin => origin.replace(/\/$/, ""));
 
 app.use(
   cors({
