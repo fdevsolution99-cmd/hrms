@@ -16,7 +16,6 @@ const userRegister = async () => {
         const uri = process.env.MONGODB_URL;
         await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
         console.log("MongoDB connected");
-
         const existingUser = await User.findOne({ email: "admin@fdevsol.com" })
         if (existingUser) {
             console.log("Admin user already exists")
