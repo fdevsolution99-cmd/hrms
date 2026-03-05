@@ -42,7 +42,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://hrms-drab-five.vercel.app",
-  "https://hrms-ctqu.onrender.com"
+  "https://hrms-15u5.onrender.com"
 ].filter(Boolean).map(origin => origin.replace(/\/$/, ""));
 
 app.use(
