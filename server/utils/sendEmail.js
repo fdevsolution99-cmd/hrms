@@ -1,47 +1,77 @@
 import nodemailer from "nodemailer";
 
+/**
+ * Send an email using Nodemailer
+ * Works in both development and production (Render/Vercel)
+ * 
+ * @param {string} to - Recipient email
+ * @param {string} subject - Email subject
+ * @param {string} html - Email content in HTML
+ * @param {Array} attachments - Optional attachments array
+ * @returns {Promise<object|null>} - Result of the send operation
+ */
 const sendEmail = async (to, subject, html, attachments = []) => {
-
   try {
-    if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.warn('Missing SMTP configuration. Skipping email send.');
+    const smtpHost = process.env.SMTP_HOST?.trim();
+    const smtpPort = process.env.SMTP_PORT?.trim();
+    const smtpUser = process.env.SMTP_USER?.trim();
+    const smtpPass = process.env.SMTP_PASS?.trim().replace(/\s+/g, ""); // Clean app password
+
+    if (!smtpHost || !smtpUser || !smtpPass) {
+      console.warn("⚠️ Missing SMTP configuration. Email will not be sent.");
       return null;
     }
 
-    if (!to || !to.includes('@')) {
-      console.warn('Invalid recipient email address. Skipping email send.');
+    if (!to || !to.includes("@")) {
+      console.warn(`⚠️ Invalid recipient email: ${to}. Skipping.`);
       return null;
     }
 
-    console.log(`📧 Attempting to send email to: ${to}`);
-    console.log(`📧 SMTP Host: ${process.env.SMTP_HOST}:${process.env.SMTP_PORT}`);
-    console.log(`📧 SMTP User: ${process.env.SMTP_USER}`);
+    console.log(`📧 Preparing to send email to: ${to}`);
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST.trim(),
-      port: parseInt(process.env.SMTP_PORT.trim()),
-      secure: process.env.SMTP_PORT.trim() === '465', // true for 465, false for 587
-      auth: {
-        user: process.env.SMTP_USER.trim(),
-        pass: process.env.SMTP_PASS.trim().replace(/\s+/g, ""), // Remove all spaces from App Password
-      },
-      // Enhanced options for Gmail compatibility
-      tls: {
-        rejectUnauthorized: false,
-        // ciphers: 'SSLv3' // Often better to let it negotiate automatically on modern systems
-      },
-      requireTLS: true,
-      connectionTimeout: 60000,
-      greetingTimeout: 30000,
-      socketTimeout: 60000
-    });
+    // Configuration for nodemailer
+    let transporterConfig;
 
-    // Verify transporter configuration
-    await transporter.verify();
-    console.log('📧 SMTP connection verified successfully');
+    // Use Gmail service preset if host is smtp.gmail.com for better reliability on Render/Vercel
+    if (smtpHost === "smtp.gmail.com") {
+      transporterConfig = {
+        service: "gmail",
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+      };
+      console.log("📧 Using Gmail service configuration.");
+    } else {
+      // Generic SMTP configuration
+      transporterConfig = {
+        host: smtpHost,
+        port: parseInt(smtpPort) || 587,
+        secure: smtpPort === "465", // true for 465, false for other ports
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+        tls: {
+          rejectUnauthorized: false, // Recommended for some shared hosting/VPS
+        },
+      };
+      console.log(`📧 Using generic SMTP configuration (${smtpHost}:${smtpPort}).`);
+    }
+
+    const transporter = nodemailer.createTransport(transporterConfig);
+
+    // Verify connection (optional but helpful for debugging production issues)
+    try {
+      await transporter.verify();
+      console.log("✅ SMTP connection verified.");
+    } catch (verifyError) {
+      console.error("❌ SMTP Verification failed:", verifyError.message);
+      // We'll still try to send, as verify can sometimes fail even if send works
+    }
 
     const mailOptions = {
-      from: `"FDEV SOLUTIONS PVT LTD" <${process.env.SMTP_USER}>`,
+      from: `"FDEV SOLUTIONS PVT LTD" <${smtpUser}>`,
       to,
       subject,
       html,
@@ -49,24 +79,21 @@ const sendEmail = async (to, subject, html, attachments = []) => {
 
     if (attachments && attachments.length > 0) {
       mailOptions.attachments = attachments;
-      console.log(`📧 Email includes ${attachments.length} attachment(s)`);
+      console.log(`📧 Attaching ${attachments.length} file(s).`);
     }
 
-    const result = await transporter.sendMail(mailOptions);
-    console.log(`📧 Email sent successfully to ${to}`);
-    console.log(`📧 Message ID: ${result.messageId}`);
-
-    return result;
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✅ Email sent successfully: ${info.messageId}`);
+    return info;
   } catch (error) {
-    console.error("❌ Error sending email:", {
+    console.error("❌ Nodemailer error:", {
       message: error.message,
       code: error.code,
       command: error.command,
-      response: error.response
     });
-    console.warn(`Email sending failed: ${error.message}`);
     return null;
   }
 };
 
 export default sendEmail;
+
