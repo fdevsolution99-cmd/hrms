@@ -29,7 +29,7 @@ const Add = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "mobilenumber") {
       // Only allow digits and limit to 10 characters
       const numericValue = value.replace(/\D/g, '');
@@ -39,7 +39,7 @@ const Add = () => {
     } else if (name === "designation") {
       setDesignationSearch(value);
       setFormData((prevData) => ({ ...prevData, [name]: value }));
-      
+
       // Filter designations based on search input
       if (value.trim()) {
         const filtered = allDesignations.filter(designation =>
@@ -76,15 +76,16 @@ const Add = () => {
           },
         }
       );
-if (response.data.success) {
-  alert("Employee added successfully!");
-}
+      if (response.data.success) {
+        alert("Employee added successfully!");
+        navigate("/admin-dashboard/employees");
+      }
     } catch (error) {
       if (error.response && !error.response.data.success) {
         alert(error.response.data.error);
       }
     }
-      
+
   };
 
   return (
@@ -185,7 +186,7 @@ if (response.data.success) {
           </div>
 
           {/* Marital Status */}
-         <div>
+          <div>
             <label className="block text-sm font-medium text-gray-700">
               Mobile Number
             </label>
@@ -226,7 +227,7 @@ if (response.data.success) {
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             />
-            
+
             {/* Suggestions dropdown */}
             {showDesignationSuggestions && filteredDesignations.length > 0 && (
               <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
@@ -262,7 +263,7 @@ if (response.data.success) {
               name="department"
               onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              
+
             >
               <option value="">Select Department</option>
               {departments.map((dep) => (
@@ -273,7 +274,7 @@ if (response.data.success) {
             </select>
           </div>
 
-         
+
 
           {/* Password */}
           <div>
