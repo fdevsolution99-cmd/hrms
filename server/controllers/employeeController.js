@@ -108,9 +108,15 @@ const addEmployee = async (req, res) => {
 // Get all employees
 const getEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find()
+    let employees = await Employee.find()
       .populate("userId", { password: 0 })
       .populate("department");
+
+    // Filter out:
+    // 1. Orphaned records (userId is null because User was deleted)
+    // 2. Admin accounts (if an admin was somehow added to the Employee collection)
+    employees = employees.filter(emp => emp.userId && emp.userId.role !== 'admin');
+
     return res.status(200).json({ success: true, employees });
   } catch (error) {
     console.error(error);
@@ -134,7 +140,7 @@ const getEmployee = async (req, res) => {
         .populate("department");
     }
 
-    if (!employee) {
+    if (!employee || !employee.userId || employee.userId.role === 'admin') {
       return res
         .status(404)
         .json({ success: false, error: "Employee not found" });
