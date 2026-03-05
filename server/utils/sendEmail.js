@@ -16,19 +16,19 @@ const sendEmail = async (to, subject, html, attachments = []) => {
     console.log(`📧 Attempting to send email to: ${to}`);
     console.log(`📧 SMTP Host: ${process.env.SMTP_HOST}:${process.env.SMTP_PORT}`);
     console.log(`📧 SMTP User: ${process.env.SMTP_USER}`);
-    
+
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: process.env.SMTP_PORT === '465', // true for 465, false for 587
+      host: process.env.SMTP_HOST.trim(),
+      port: parseInt(process.env.SMTP_PORT.trim()),
+      secure: process.env.SMTP_PORT.trim() === '465', // true for 465, false for 587
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.SMTP_USER.trim(),
+        pass: process.env.SMTP_PASS.trim().replace(/\s+/g, ""), // Remove all spaces from App Password
       },
       // Enhanced options for Gmail compatibility
       tls: {
         rejectUnauthorized: false,
-        ciphers: 'SSLv3'
+        // ciphers: 'SSLv3' // Often better to let it negotiate automatically on modern systems
       },
       requireTLS: true,
       connectionTimeout: 60000,
@@ -55,7 +55,7 @@ const sendEmail = async (to, subject, html, attachments = []) => {
     const result = await transporter.sendMail(mailOptions);
     console.log(`📧 Email sent successfully to ${to}`);
     console.log(`📧 Message ID: ${result.messageId}`);
-    
+
     return result;
   } catch (error) {
     console.error("❌ Error sending email:", {

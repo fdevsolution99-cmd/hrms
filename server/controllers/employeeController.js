@@ -73,7 +73,7 @@ const addEmployee = async (req, res) => {
         <p>
           <a href="${process.env.CLIENT_URL || "https://hrms-drab-five.vercel.app"}" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Login to FDEV HRMS</a>
         </p>
-        <p style="font-size: 0.9em;">Or copy and paste this URL in your browser: <a href="${process.env.CLIENT_URL || "https://hrms-drab-five.vercel.app"}" style="color: #0066cc;">${process.env.CLIENT_URL || "https://hrms-theta-cyan.vercel.app"}</a></p>
+        <p style="font-size: 0.9em;">Or copy and paste this URL in your browser: <a href="${process.env.CLIENT_URL || "https://hrms-drab-five.vercel.app"}" style="color: #0066cc;">${process.env.CLIENT_URL || "https://hrms-drab-five.vercel.app"}</a></p>
 
         <p>Access your official company webmail:</p>
         <p>
@@ -92,7 +92,7 @@ const addEmployee = async (req, res) => {
       </div>
     `;
 
-    sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml);
+    await sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml);
 
     return res
       .status(200)
