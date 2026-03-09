@@ -92,7 +92,10 @@ const addEmployee = async (req, res) => {
       </div>
     `;
 
-    await sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml);
+    // Send email asynchronously (don't wait for it)
+    sendEmail(email, "Welcome to FDEV Solutions 🎉", emailHtml).catch(err => {
+      console.error("Async email sending failed:", err);
+    });
 
     return res
       .status(200)

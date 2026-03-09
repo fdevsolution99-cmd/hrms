@@ -61,15 +61,6 @@ const sendEmail = async (to, subject, html, attachments = []) => {
 
     const transporter = nodemailer.createTransport(transporterConfig);
 
-    // Verify connection (optional but helpful for debugging production issues)
-    try {
-      await transporter.verify();
-      console.log("✅ SMTP connection verified.");
-    } catch (verifyError) {
-      console.error("❌ SMTP Verification failed:", verifyError.message);
-      // We'll still try to send, as verify can sometimes fail even if send works
-    }
-
     const mailOptions = {
       from: `"FDEV SOLUTIONS PVT LTD" <${smtpUser}>`,
       to,
