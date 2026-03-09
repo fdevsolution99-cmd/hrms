@@ -34,9 +34,11 @@ const Detail = () => {
           setLeave(responnse.data.leave);
         }
       } catch (error) {
-
+        console.error("Error fetching leave details:", error);
         if (error.response && !error.response.data.success) {
           alert(error.response.data.error);
+        } else {
+          alert("An error occurred. Check the console for details.");
         }
       }
     };
@@ -46,22 +48,22 @@ const Detail = () => {
 
   const changeStatus = async (id, status) => {
     try {
-        const responnse = await axios.put(
-          `${API_BASE}/api/leave/${id}`, {status},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (responnse.data.success) {
-            navigate('/admin-dashboard/leaves')
+      const responnse = await axios.put(
+        `${API_BASE}/api/leave/${id}`, { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      } catch (error) {
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
+      );
+      if (responnse.data.success) {
+        navigate('/admin-dashboard/leaves')
       }
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    }
   }
 
   return (
@@ -75,11 +77,11 @@ const Detail = () => {
             <div>
               <div className="flex space-x-3 mb-2">
                 <p className="text-lg font-bold">Name:</p>
-                <p className="font-medium">{leave.employeeId.userId.name}</p>
+                <p className="font-medium">{leave.employeeId?.userId?.name || "N/A"}</p>
               </div>
               <div className="flex space-x-3 mb-2">
                 <p className="text-lg font-bold">Employee ID:</p>
-                <p className="font-medium">{leave.employeeId.employeeId}</p>
+                <p className="font-medium">{leave.employeeId?.employeeId || "N/A"}</p>
               </div>
 
               <div className="flex space-x-3 mb-2">
@@ -95,7 +97,7 @@ const Detail = () => {
 
               <div className="flex space-x-3 mb-2">
                 <p className="text-lg font-bold">Department:</p>
-                <p className="font-medium">{leave.employeeId.department.dep_name}</p>
+                <p className="font-medium">{leave.employeeId?.department?.dep_name || "N/A"}</p>
               </div>
               <div className="flex space-x-3 mb-2">
                 <p className="text-lg font-bold">Start Date:</p>
@@ -107,17 +109,17 @@ const Detail = () => {
               </div>
               <div className="flex space-x-3 mb-2">
                 <p className="text-lg font-bold">
-                    {leave.status === "Pending" ? "Action:" : "Status:"}
-                    </p>
-                    {leave.status === "Pending" ? (
-                        <div className="flex space-x-2">
-                            <button className="px-2 py-0.5 bg-teal-300 hover:bg-teal-400"
-                            onClick={() => changeStatus(leave._id, "Approved")}>Approve</button>
-                            <button className="px-2 py-0.5 bg-red-300 hover:bg-red-400"
-                            onClick={() => changeStatus(leave._id, "Rejected")}>Reject</button>
-                        </div>
-                    ) : 
-                    <p className="font-medium">{leave.status}</p>
+                  {leave.status === "Pending" ? "Action:" : "Status:"}
+                </p>
+                {leave.status === "Pending" ? (
+                  <div className="flex space-x-2">
+                    <button className="px-2 py-0.5 bg-teal-300 hover:bg-teal-400"
+                      onClick={() => changeStatus(leave._id, "Approved")}>Approve</button>
+                    <button className="px-2 py-0.5 bg-red-300 hover:bg-red-400"
+                      onClick={() => changeStatus(leave._id, "Rejected")}>Reject</button>
+                  </div>
+                ) :
+                  <p className="font-medium">{leave.status}</p>
                 }
               </div>
             </div>
