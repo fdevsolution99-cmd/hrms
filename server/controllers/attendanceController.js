@@ -158,7 +158,7 @@ export const getAllAttendance = async (req, res) => {
 
               // Combine WFH with time-based status
               if (workingHours >= 6.5) {
-                attendanceStatus = workingHours > 6.5 ? "Work from Home + Overtime" : "Work from Home - Present";
+                attendanceStatus = "Work from Home - Present";
               } else if (workingHours >= 4) {
                 attendanceStatus = "Work from Home - Half Day";
               } else if (workingHours > 0) {
@@ -201,7 +201,7 @@ export const getAllAttendance = async (req, res) => {
 
             // Determine status based on working hours
             if (workingHours >= 6.5) {
-              attendanceStatus = workingHours > 6.5 ? "Present + Overtime" : "Present";
+              attendanceStatus = "Present";
             } else if (workingHours >= 4) {
               attendanceStatus = "Half-Day";
             } else {
@@ -322,7 +322,7 @@ export const getEmployeeMonthlyAttendance = async (req, res) => {
 
             // Combine WFH with time-based status
             if (workingHours >= 6.5) {
-              attendanceStatus = workingHours > 6.5 ? "Work from Home + Overtime" : "Work from Home - Present";
+              attendanceStatus = "Work from Home - Present";
             } else if (workingHours >= 4) {
               attendanceStatus = "Work from Home - Half Day";
             } else if (workingHours > 0) {
@@ -365,7 +365,7 @@ export const getEmployeeMonthlyAttendance = async (req, res) => {
 
           // Determine status based on working hours
           if (workingHours >= 6.5) {
-            attendanceStatus = workingHours > 6.5 ? "Present + Overtime" : "Present";
+            attendanceStatus = "Present";
           } else if (workingHours >= 4) {
             attendanceStatus = "Half-Day";
           } else {
@@ -485,7 +485,7 @@ export const getMonthlyAttendance = async (req, res) => {
 
             // Combine WFH with time-based status
             if (workingHours >= 6.5) {
-              attendanceStatus = workingHours > 6.5 ? "Work from Home + Overtime" : "Work from Home - Present";
+              attendanceStatus = "Work from Home - Present";
             } else if (workingHours >= 4) {
               attendanceStatus = "Work from Home - Half Day";
             } else if (workingHours > 0) {
@@ -528,7 +528,7 @@ export const getMonthlyAttendance = async (req, res) => {
 
           // Determine status based on working hours
           if (workingHours >= 6.5) {
-            attendanceStatus = workingHours > 6.5 ? "Present + Overtime" : "Present";
+            attendanceStatus = "Present";
           } else if (workingHours >= 4) {
             attendanceStatus = "Half-Day";
           } else {
@@ -629,7 +629,7 @@ export const exportAttendanceExcel = async (req, res) => {
 
               // Combine WFH with time-based status
               if (workingHours >= 6.5) {
-                attendanceStatus = workingHours > 6.5 ? "Work from Home + Overtime" : "Work from Home - Present";
+                attendanceStatus = "Work from Home - Present";
               } else if (workingHours >= 4) {
                 attendanceStatus = "Work from Home - Half Day";
               } else if (workingHours > 0) {
@@ -672,7 +672,7 @@ export const exportAttendanceExcel = async (req, res) => {
 
             // Determine status based on working hours
             if (workingHours >= 6.5) {
-              attendanceStatus = workingHours > 6.5 ? "Present + Overtime" : "Present";
+              attendanceStatus = "Present";
             } else if (workingHours >= 4) {
               attendanceStatus = "Half-Day";
             } else {
@@ -822,7 +822,7 @@ export const exportMonthlyAttendanceExcel = async (req, res) => {
 
             // Combine WFH with time-based status
             if (workingHours >= 6.5) {
-              attendanceStatus = workingHours > 6.5 ? "Work from Home + Overtime" : "Work from Home - Present";
+              attendanceStatus = "Work from Home - Present";
             } else if (workingHours >= 4) {
               attendanceStatus = "Work from Home - Half Day";
             } else if (workingHours > 0) {
@@ -865,7 +865,7 @@ export const exportMonthlyAttendanceExcel = async (req, res) => {
 
           // Determine status based on working hours
           if (workingHours >= 6.5) {
-            attendanceStatus = workingHours > 6.5 ? "Present + Overtime" : "Present";
+            attendanceStatus = "Present";
           } else if (workingHours >= 4) {
             attendanceStatus = "Half-Day";
           } else {
