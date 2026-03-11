@@ -7,100 +7,100 @@ import { toISTDateString } from "../../utils/dateTimeUtils";
 import useMeta from "../../utils/useMeta";
 
 const Add = () => {
-    const {user} = useAuth()
-    useMeta({
-      title: 'Apply Leave — FDEV HRMS',
-      description: 'Request leave with dates and type.',
-      keywords: 'apply leave, HRMS',
-      image: '/images/fdev.jpeg',
-      url: `${window.location.origin}/employee-dashboard/add-leave`,
-      robots: 'noindex,nofollow'
-    });
+  const { user } = useAuth()
+  useMeta({
+    title: 'Apply Leave — FDEV HRMS',
+    description: 'Request leave with dates and type.',
+    keywords: 'apply leave, HRMS',
+    image: '/images/fdev.jpeg',
+    url: `${window.location.origin}/employee-dashboard/add-leave`,
+    robots: 'noindex,nofollow'
+  });
 
-    const [leave, setLeave] = useState({
-        userId: user._id,
-    })
+  const [leave, setLeave] = useState({
+    userId: user._id,
+  })
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    // Get today's date in YYYY-MM-DD format in IST
-    const getTodayDate = () => {
-        return toISTDateString(new Date());
-    };
+  // Get today's date in YYYY-MM-DD format in IST
+  const getTodayDate = () => {
+    return toISTDateString(new Date());
+  };
 
-    // Get tomorrow's date in YYYY-MM-DD format in IST
-    const getTomorrowDate = () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        return toISTDateString(tomorrow);
-    };
+  // Get tomorrow's date in YYYY-MM-DD format in IST
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return toISTDateString(tomorrow);
+  };
 
-    const validateDates = (name, value) => {
-        const today = getTodayDate();
-        const tomorrow = getTomorrowDate();
-        
-        if (name === 'startDate') {
-            if (value < today) {
-                alert('From date should be today or a future date!');
-                return false;
-            }
-            // If end date is already selected, validate it against new start date
-            if (leave.endDate && value >= leave.endDate) {
-                alert('From date should be before the To date!');
-                return false;
-            }
-        }
-        
-        if (name === 'endDate') {
-            if (value < tomorrow) {
-                alert('To date should be tomorrow or a future date!');
-                return false;
-            }
-            // If start date is selected, validate end date against it
-            if (leave.startDate && value <= leave.startDate) {
-                alert('To date should be after the From date!');
-                return false;
-            }
-        }
-        
-        return true;
-    };
+  const validateDates = (name, value) => {
+    const today = getTodayDate();
+    const tomorrow = getTomorrowDate();
+
+    if (name === 'startDate') {
+      if (value < today) {
+        alert('From date should be today or a future date!');
+        return false;
+      }
+      // If end date is already selected, validate it against new start date
+      if (leave.endDate && value > leave.endDate) {
+        alert('From date should be on or before the To date!');
+        return false;
+      }
+    }
+
+    if (name === 'endDate') {
+      if (value < today) {
+        alert('To date should be today or a future date!');
+        return false;
+      }
+      // If start date is selected, validate end date against it
+      if (leave.startDate && value < leave.startDate) {
+        alert('To date should be on or after the From date!');
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    
+    const { name, value } = e.target;
+
     // Validate dates before updating state
     if ((name === 'startDate' || name === 'endDate') && value) {
-        if (!validateDates(name, value)) {
-            // Reset the input field to empty if validation fails
-            e.target.value = '';
-            return;
-        }
+      if (!validateDates(name, value)) {
+        // Reset the input field to empty if validation fails
+        e.target.value = '';
+        return;
+      }
     }
-    
-    setLeave((prevState) => ({...prevState, [name] : value}))
+
+    setLeave((prevState) => ({ ...prevState, [name]: value }))
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(
-          `${API_BASE}/api/leave/add`,leave,
-          {
-            headers: {
-              "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          navigate(`/employee-dashboard/leaves/${user._id}`)
+      const response = await axios.post(
+        `${API_BASE}/api/leave/add`, leave,
+        {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      } catch (error) {
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
+      );
+      if (response.data.success) {
+        navigate(`/employee-dashboard/leaves/${user._id}`)
       }
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    }
   }
 
   return (
@@ -149,7 +149,7 @@ const Add = () => {
               <input
                 type="date"
                 name="endDate"
-                min={leave.startDate ? toISTDateString(new Date(new Date(leave.startDate).getTime() + 24 * 60 * 60 * 1000)) : getTomorrowDate()}
+                min={leave.startDate ? leave.startDate : getTodayDate()}
                 onChange={handleChange}
                 className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
                 required
