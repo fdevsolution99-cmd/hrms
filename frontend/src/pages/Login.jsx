@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { API_BASE } from "../utils/apiConfig";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 import useMeta from "../utils/useMeta";
 
 const Login = () => {
@@ -19,6 +19,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState({ email: false, password: false });
+  const [btnHovered, setBtnHovered] = useState(false);
 
   const canonical = useMemo(() => `${window.location.origin}/login`, []);
   useMeta({
@@ -97,48 +98,55 @@ const Login = () => {
         onMouseLeave={() => setHovered(false)}
         style={{
           width: "380px",
-          maxWidth: "92%",
-          borderRadius: "16px",
-          padding: "36px",
-          background: "rgba(255, 255, 255, 0.04)",
+          maxWidth: "420px",
+          width: "92%",
+          borderRadius: "24px",
+          padding: "40px",
+          background: "rgba(0, 0, 0, 0.45)",
           backdropFilter: "blur(1.5px)",
           WebkitBackdropFilter: "blur(1.5px)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.12)",
           boxShadow: hovered
-            ? "0 10px 40px rgba(255, 255, 255, 0.15)"
-            : "0 4px 20px rgba(0, 0, 0, 0.3)",
-          transform: hovered ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
-          transition: "all 500ms cubic-bezier(.2,.9,.2,1)",
-          color: "#E8FDF5",
-          animation: "fadeIn 700ms ease-out both",
+            ? "0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)"
+            : "0 15px 35px rgba(0, 0, 0, 0.4)",
+          transform: hovered ? "translateY(-8px)" : "translateY(0)",
+          transition: "all 600ms cubic-bezier(.2,.9,.2,1)",
+          color: "#fff",
+          animation: "fadeIn 800ms ease-out both",
         }}
       >
         <h1
           style={{
-            fontSize: "24px",
+            fontSize: "26px",
             fontWeight: 800,
-            marginBottom: "16px",
+            marginBottom: "12px",
             textAlign: "center",
-            letterSpacing: "0.8px",
-            color: "rgba(255, 255, 255, 0.85)",
-            textShadow: "0 4px 12px rgba(0,0,0,0.4)",
+            letterSpacing: "0.5px",
+            color: "#FFFFFF",
+            textShadow: "0 2px 10px rgba(0,0,0,0.3)",
             lineHeight: "1.2",
           }}
         >
           WELCOME TO<br />
-          <span style={{ color: "rgba(232, 253, 245, 0.9)", fontSize: "28px" }}>FDEV SOLUTIONS</span>
+          <span style={{
+            color: "#C1F7E6",
+            fontSize: "30px",
+            background: "linear-gradient(to right, #fff, #C1F7E6)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent"
+          }}>FDEV SOLUTIONS</span>
         </h1>
 
         <p
           style={{
             textAlign: "center",
-            marginBottom: "18px",
-            color: "#CFEFE7",
-            fontSize: "13px",
-            opacity: 0.95,
+            marginBottom: "24px",
+            color: "rgba(255, 255, 255, 0.7)",
+            fontSize: "14px",
+            fontWeight: "400",
           }}
         >
-          Login to your account
+          Securely login to your account
         </p>
 
         {error && (
@@ -165,12 +173,14 @@ const Login = () => {
               htmlFor="email"
               style={{
                 display: "block",
-                fontSize: "13px",
-                marginBottom: "6px",
-                color: focused.email ? "#C1F7E6" : "#BFDCD3",
+                fontSize: "14px",
+                fontWeight: "600",
+                marginBottom: "8px",
+                color: focused.email ? "#C1F7E6" : "rgba(255, 255, 255, 0.8)",
+                transition: "color 300ms ease",
               }}
             >
-              Email
+              Email Address
             </label>
             <div style={{ position: "relative" }}>
               {/* input */}
@@ -185,55 +195,41 @@ const Login = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "14px 14px 14px 44px",
+                  padding: "14px 16px 14px 46px",
                   borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.25)",
-                  background: focused.email ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                  backdropFilter: "blur(8px)",
-                  WebkitBackdropFilter: "blur(8px)",
+                  border: focused.email
+                    ? "1px solid rgba(193, 247, 230, 0.5)"
+                    : "1px solid rgba(255, 255, 255, 0.15)",
+                  background: focused.email
+                    ? "rgba(255, 255, 255, 0.08)"
+                    : "rgba(255, 255, 255, 0.04)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
                   color: "#ffffff",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                  fontSize: "15px",
+                  fontWeight: "500",
                   outline: "none",
-                  transition: "all 300ms ease",
+                  transition: "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
                   boxShadow: focused.email
-                    ? "0 0 0 3px rgba(255, 255, 255, 0.2)"
+                    ? "0 0 0 4px rgba(193, 247, 230, 0.1)"
                     : "none",
                 }}
               />
 
-              {/* icon (simple envelope) */}
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
+              <FiMail
+                size={20}
                 style={{
                   position: "absolute",
-                  left: "12px",
+                  left: "14px",
                   top: "50%",
                   transform: "translateY(-50%)",
-                  opacity: 1,
-                  fill: "none",
+                  opacity: focused.email ? 1 : 0.6,
+                  color: focused.email ? "#C1F7E6" : "#fff",
                   zIndex: 10,
                   pointerEvents: "none",
+                  transition: "all 300ms ease",
                 }}
-              >
-                <path
-                  d="M3 6.5v11A2.5 2.5 0 0 0 5.5 20h13A2.5 2.5 0 0 0 21 17.5v-11A2.5 2.5 0 0 0 18.5 4h-13A2.5 2.5 0 0 0 3 6.5z"
-                  stroke="#3B82F6"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M21 7.2l-8 5-8-5"
-                  stroke="#3B82F6"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              />
             </div>
           </div>
 
@@ -264,18 +260,21 @@ const Login = () => {
                   width: "100%",
                   padding: "14px 50px 14px 44px",
                   borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.25)",
-                  background: focused.password ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                  backdropFilter: "blur(8px)",
-                  WebkitBackdropFilter: "blur(8px)",
+                  border: focused.password
+                    ? "1px solid rgba(193, 247, 230, 0.5)"
+                    : "1px solid rgba(255, 255, 255, 0.15)",
+                  background: focused.password
+                    ? "rgba(255, 255, 255, 0.08)"
+                    : "rgba(255, 255, 255, 0.04)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
                   color: "#ffffff",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                  fontSize: "15px",
+                  fontWeight: "500",
                   outline: "none",
-                  transition: "all 300ms ease",
+                  transition: "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
                   boxShadow: focused.password
-                    ? "0 0 0 3px rgba(255, 255, 255, 0.2)"
+                    ? "0 0 0 4px rgba(193, 247, 230, 0.1)"
                     : "none",
                 }}
               />
@@ -286,62 +285,43 @@ const Login = () => {
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 style={{
                   position: "absolute",
-                  right: "10px",
+                  right: "12px",
                   top: "50%",
                   transform: "translateY(-50%)",
-                  background: "rgba(17,24,39,0.35)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  color: "#fff",
+                  background: "transparent",
+                  border: "none",
+                  color: focused.password ? "#C1F7E6" : "rgba(255,255,255,0.5)",
                   cursor: "pointer",
-                  padding: "6px",
-                  borderRadius: "8px",
+                  padding: "4px",
+                  borderRadius: "6px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   zIndex: 20,
+                  transition: "all 300ms ease",
                 }}
               >
                 {showPassword ? (
-                  <FiEyeOff size={16} />
+                  <FiEyeOff size={18} />
                 ) : (
-                  <FiEye size={16} />
+                  <FiEye size={18} />
                 )}
               </button>
 
-              {/* lock icon left */}
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
+              <FiLock
+                size={20}
                 style={{
                   position: "absolute",
-                  left: "12px",
+                  left: "14px",
                   top: "50%",
                   transform: "translateY(-50%)",
-                  opacity: 1,
-                  fill: "none",
+                  opacity: focused.password ? 1 : 0.6,
+                  color: focused.password ? "#C1F7E6" : "#fff",
                   zIndex: 10,
                   pointerEvents: "none",
+                  transition: "all 300ms ease",
                 }}
-              >
-                <rect
-                  x="3"
-                  y="10"
-                  width="18"
-                  height="11"
-                  rx="2"
-                  stroke="#3B82F6"
-                  strokeWidth="1.5"
-                  fill="none"
-                />
-                <path
-                  d="M7 10V8a5 5 0 0 1 10 0v2"
-                  stroke="#3B82F6"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              />
             </div>
           </div>
 
@@ -382,26 +362,42 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
+              onMouseEnter={() => setBtnHovered(true)}
+              onMouseLeave={() => setBtnHovered(false)}
               style={{
                 width: "100%",
-                padding: "12px",
-                borderRadius: "10px",
-                border: "none",
-                cursor: loading ? "not-allowed" : "pointer",
+                padding: "14px",
+                borderRadius: "12px",
                 background: loading
-                  ? "linear-gradient(90deg,#4da3ff,#1d6fe0)"
-                  : "linear-gradient(90deg,#1e90ff,#0066cc)", // Blue gradient
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: "15px",
-                boxShadow: loading
-                  ? "0 6px 18px rgba(0,0,0,0.15)"
-                  : "0 10px 30px rgba(0,102,204,0.28)",
-                transform: hovered ? "translateY(-2px)" : "none",
-                transition: "all 220ms ease",
+                  ? "rgba(193, 247, 230, 0.2)"
+                  : btnHovered
+                    ? "linear-gradient(135deg, #C1F7E6 0%, #3B82F6 100%)"
+                    : "#3B82F6",
+                color: btnHovered ? "#0a1f16" : "#fff",
+                fontSize: "16px",
+                fontWeight: "700",
+                cursor: loading ? "not-allowed" : "pointer",
+                border: "none",
+                boxShadow: btnHovered
+                  ? "0 12px 24px rgba(59, 130, 246, 0.4), 0 0 0 2px rgba(193, 247, 230, 0.4)"
+                  : "0 4px 12px rgba(0, 0, 0, 0.2)",
+                transition: "all 400ms cubic-bezier(0.4, 0, 0.2, 1)",
+                transform: btnHovered ? "translateY(-2px)" : "translateY(0)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
+                marginTop: "12px",
               }}
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? (
+                <>
+                  <div className="spinner" />
+                  Signing in...
+                </>
+              ) : (
+                "Login to Dashboard"
+              )}
             </button>
 
           </div>
@@ -424,6 +420,22 @@ const Login = () => {
           }
           input:focus::placeholder {
              color: rgba(255, 255, 255, 0.7) !important;
+          }
+          input {
+            color: #ffffff !important;
+          }
+          input:focus {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+          }
+          input:-webkit-autofill,
+          input:-webkit-autofill:hover, 
+          input:-webkit-autofill:focus, 
+          input:-webkit-autofill:active  {
+            -webkit-box-shadow: 0 0 0 1000px #0a1f16 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
           }
           @media (max-width: 768px) {
              .login-container {
