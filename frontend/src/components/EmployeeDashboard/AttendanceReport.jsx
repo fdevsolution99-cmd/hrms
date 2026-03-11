@@ -7,7 +7,7 @@ import { formatDMY } from "../../utils/dateUtils";
 import MonthPicker from "../common/MonthPicker";
 import { FixedSizeList as List } from "react-window";
 import useMeta from "../../utils/useMeta";
- 
+
 const AttendanceReport = () => {
   useMeta({
     title: "Attendance Report — FDEV HRMS",
@@ -20,12 +20,12 @@ const AttendanceReport = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const initialDate = params.get("date") || toISTDateString(new Date());
- 
+
   const [attendance, setAttendance] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [attendanceStatus, setAttendanceStatus] = useState("");
-  
+
   // Monthly report states
   const [viewMode, setViewMode] = useState("daily"); // "daily" or "monthly"
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7)); // Current month in YYYY-MM format
@@ -40,7 +40,7 @@ const AttendanceReport = () => {
     const wfh = monthlyData.filter(d => d.status?.startsWith("Work from Home")).length;
     return { present, absent, halfDay, wfh };
   }, [monthlyData]);
- 
+
   useEffect(() => {
     const fetchAttendance = async () => {
       if (viewMode !== "daily") return; // Only fetch daily data when in daily mode
@@ -48,19 +48,19 @@ const AttendanceReport = () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
- 
+
         // First check if there's an approved leave for this date
         const leaveResponse = await axios.get(
           `${API_BASE}/api/leave/employee?date=${selectedDate}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        
-        const approvedLeave = leaveResponse.data.find(leave => 
-          leave.status === "Approved" && 
-          new Date(leave.startDate) <= new Date(selectedDate) && 
+
+        const approvedLeave = leaveResponse.data.find(leave =>
+          leave.status === "Approved" &&
+          new Date(leave.startDate) <= new Date(selectedDate) &&
           new Date(leave.endDate) >= new Date(selectedDate)
         );
-        
+
         if (approvedLeave) {
           // Check if it's work from home leave
           if (approvedLeave.leaveType === "Work from Home") {
@@ -69,35 +69,35 @@ const AttendanceReport = () => {
               `${API_BASE}/api/attendance/report?date=${selectedDate}`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
-            
+
             const record = attendanceData?.length > 0 ? attendanceData[0] : null;
-            
+
             if (record?.inTime && record?.outTime) {
               // Calculate working hours for WFH
               const [inHour, inMin] = record.inTime.split(":").map(Number);
               const [outHour, outMin] = record.outTime.split(":").map(Number);
-              
+
               let workingHours = (outHour - inHour) + (outMin - inMin) / 60;
               if (workingHours < 0) workingHours += 24;
-              
+
               // Subtract break times if any
               if (record.breaks && record.breaks.length > 0) {
                 record.breaks.forEach(breakPeriod => {
                   if (breakPeriod.start && breakPeriod.end) {
                     const [breakStartHour, breakStartMin] = breakPeriod.start.split(":").map(Number);
                     const [breakEndHour, breakEndMin] = breakPeriod.end.split(":").map(Number);
-                    
+
                     let breakHours = (breakEndHour - breakStartHour) + (breakEndMin - breakStartMin) / 60;
                     if (breakHours < 0) breakHours += 24;
-                    
+
                     workingHours -= breakHours;
                   }
                 });
               }
-              
+
               // Combine WFH with time-based status
-              if (workingHours >= 8) {
-                setAttendanceStatus(workingHours > 8 ? "Work from Home + Overtime" : "Work from Home - Present");
+              if (workingHours >= 6.5) {
+                setAttendanceStatus("Work from Home - Present");
               } else if (workingHours >= 4) {
                 setAttendanceStatus("Work from Home - Half Day");
               } else if (workingHours > 0) {
@@ -120,48 +120,48 @@ const AttendanceReport = () => {
           setLoading(false);
           return;
         }
-        
+
         // If no approved leave, fetch attendance record
         const { data } = await axios.get(
           `${API_BASE}/api/attendance/report?date=${selectedDate}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
- 
+
         const record = data?.length > 0 ? data[0] : null;
         setAttendance(record);
-        
+
         if (record) {
           // Calculate attendance status
           let status = "";
-          
+
           // Check if there's both in and out time
           if (record.inTime && record.outTime) {
             // Calculate working hours
             const [inHour, inMin] = record.inTime.split(":").map(Number);
             const [outHour, outMin] = record.outTime.split(":").map(Number);
-            
+
             // Calculate total hours worked
             let workingHours = (outHour - inHour) + (outMin - inMin) / 60;
             if (workingHours < 0) workingHours += 24; // Handle overnight shifts
-            
+
             // Deduct break time if any
             if (record.breaks && record.breaks.length > 0) {
               record.breaks.forEach(breakPeriod => {
                 if (breakPeriod.start && breakPeriod.end) {
                   const [breakStartHour, breakStartMin] = breakPeriod.start.split(":").map(Number);
                   const [breakEndHour, breakEndMin] = breakPeriod.end.split(":").map(Number);
-                  
+
                   let breakHours = (breakEndHour - breakStartHour) + (breakEndMin - breakStartMin) / 60;
                   if (breakHours < 0) breakHours += 24;
-                  
+
                   workingHours -= breakHours;
                 }
               });
             }
-            
+
             // Determine status based on working hours
-            if (workingHours >= 8) {
-              status = workingHours > 8 ? "Present + Overtime" : "Present";
+            if (workingHours >= 6.5) {
+              status = "Present";
             } else if (workingHours >= 4) {
               status = "Half-Day";
             } else {
@@ -173,7 +173,7 @@ const AttendanceReport = () => {
           } else {
             status = "Not Yet";
           }
-          
+
           setAttendanceStatus(status);
         } else {
           setAttendanceStatus("Not Yet");
@@ -190,7 +190,7 @@ const AttendanceReport = () => {
   // Fetch monthly attendance data
   const fetchMonthlyAttendance = async () => {
     if (!selectedMonth) return;
-    
+
     setMonthlyLoading(true);
     try {
       const token = localStorage.getItem("token");
@@ -201,7 +201,7 @@ const AttendanceReport = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      
+
       setMonthlyData(data);
     } catch (err) {
       setMonthlyData([]);
@@ -223,7 +223,7 @@ const AttendanceReport = () => {
       fetchMonthlyAttendance();
     }
   }, []);
- 
+
   const renderLocation = (loc, label) =>
     loc ? (
       <p>
@@ -240,9 +240,9 @@ const AttendanceReport = () => {
         )}
       </p>
     ) : null;
- 
+
   if (loading) return <div className="p-8 text-center">Loading attendance...</div>;
- 
+
   return (
     <div className="p-4 md:p-8 min-h-screen bg-gray-100">
       <h2 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4 md:mb-6 text-center" style={{ fontFamily: 'Times New Roman, serif' }}>
@@ -254,21 +254,19 @@ const AttendanceReport = () => {
         <div className="bg-white rounded-lg p-1 shadow-md w-full max-w-xs">
           <button
             onClick={() => setViewMode("daily")}
-            className={`px-4 md:px-6 py-2 rounded-md font-medium transition-all ${
-              viewMode === "daily"
+            className={`px-4 md:px-6 py-2 rounded-md font-medium transition-all ${viewMode === "daily"
                 ? "bg-blue-600 text-white shadow-md"
                 : "text-gray-600 hover:text-blue-600"
-            }`}
+              }`}
           >
             Daily Report
           </button>
           <button
             onClick={() => setViewMode("monthly")}
-            className={`px-4 md:px-6 py-2 rounded-md font-medium transition-all ${
-              viewMode === "monthly"
+            className={`px-4 md:px-6 py-2 rounded-md font-medium transition-all ${viewMode === "monthly"
                 ? "bg-blue-600 text-white shadow-md"
                 : "text-gray-600 hover:text-blue-600"
-            }`}
+              }`}
           >
             Monthly Report
           </button>
@@ -308,7 +306,7 @@ const AttendanceReport = () => {
           </div>
         </>
       )}
- 
+
       {/* Daily Report Content */}
       {viewMode === "daily" && (
         <>
@@ -322,7 +320,7 @@ const AttendanceReport = () => {
               </div>
               <p className="text-center text-lg text-gray-600">
                 {attendanceStatus.startsWith("Work from Home")
-                  ? `You are working from home on ${selectedDate}` 
+                  ? `You are working from home on ${selectedDate}`
                   : `You are on approved leave for ${selectedDate}`}
               </p>
             </div>
@@ -334,31 +332,30 @@ const AttendanceReport = () => {
             <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl p-8 border border-gray-300 space-y-4">
               <div className="mb-4">
                 <strong>Status: </strong>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  attendanceStatus === "Present" 
-                    ? "bg-green-100 text-green-600" 
-                    : attendanceStatus === "Present + Overtime" 
-                    ? "bg-green-200 text-green-800" 
-                    : attendanceStatus === "Half-Day" 
-                    ? "bg-orange-100 text-orange-600" 
-                    : attendanceStatus === "Incomplete" 
-                    ? "bg-yellow-100 text-yellow-600" 
-                    : attendanceStatus === "Leave" 
-                    ? "bg-blue-100 text-blue-600" 
-                    : attendanceStatus === "Work from Home - Present" 
-                    ? "bg-purple-100 text-purple-600" 
-                    : attendanceStatus === "Work from Home + Overtime" 
-                    ? "bg-purple-200 text-purple-800" 
-                    : attendanceStatus === "Work from Home - Half Day" 
-                    ? "bg-purple-50 text-purple-500" 
-                    : attendanceStatus === "Work from Home - Incomplete" 
-                    ? "bg-yellow-100 text-yellow-600" 
-                    : attendanceStatus === "Work from Home - Not Marked" 
-                    ? "bg-gray-100 text-gray-600" 
-                    : attendanceStatus === "Not Yet" 
-                    ? "bg-gray-100 text-gray-600" 
-                    : "bg-red-100 text-red-600"
-                }`}>
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${attendanceStatus === "Present"
+                    ? "bg-green-100 text-green-600"
+                    : attendanceStatus === "Present + Overtime"
+                      ? "bg-green-200 text-green-800"
+                      : attendanceStatus === "Half-Day"
+                        ? "bg-orange-100 text-orange-600"
+                        : attendanceStatus === "Incomplete"
+                          ? "bg-yellow-100 text-yellow-600"
+                          : attendanceStatus === "Leave"
+                            ? "bg-blue-100 text-blue-600"
+                            : attendanceStatus === "Work from Home - Present"
+                              ? "bg-purple-100 text-purple-600"
+                              : attendanceStatus === "Work from Home + Overtime"
+                                ? "bg-purple-200 text-purple-800"
+                                : attendanceStatus === "Work from Home - Half Day"
+                                  ? "bg-purple-50 text-purple-500"
+                                  : attendanceStatus === "Work from Home - Incomplete"
+                                    ? "bg-yellow-100 text-yellow-600"
+                                    : attendanceStatus === "Work from Home - Not Marked"
+                                      ? "bg-gray-100 text-gray-600"
+                                      : attendanceStatus === "Not Yet"
+                                        ? "bg-gray-100 text-gray-600"
+                                        : "bg-red-100 text-red-600"
+                  }`}>
                   {attendanceStatus}
                 </span>
               </div>
@@ -410,7 +407,7 @@ const AttendanceReport = () => {
               <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
                 Monthly Attendance Report - {selectedMonth}
               </h3>
-              
+
               {/* Monthly Summary (memoized) */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-green-50 p-4 rounded-lg text-center">
@@ -442,38 +439,37 @@ const AttendanceReport = () => {
                   <div className="px-4 py-2 text-left font-semibold">Work Mode</div>
                   <div className="px-4 py-2 text-left font-semibold">Working Hours</div>
                 </div>
-                
+
                 {/* Mobile View - Card Layout */}
                 <div className="md:hidden">
                   {monthlyData.map((record, index) => (
                     <div key={index} className="bg-white p-4 rounded-lg shadow-sm border mb-3">
                       <div className="flex justify-between items-start mb-2">
                         <div className="font-semibold">{formatDMY(record.date)}</div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          record.status === "Present"
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === "Present"
                             ? "bg-green-100 text-green-600"
                             : record.status === "Present + Overtime"
-                            ? "bg-green-200 text-green-800"
-                            : record.status === "Half-Day"
-                            ? "bg-orange-100 text-orange-600"
-                            : record.status === "Incomplete"
-                            ? "bg-yellow-100 text-yellow-600"
-                            : record.status === "Leave"
-                            ? "bg-blue-100 text-blue-600"
-                            : record.status === "Work from Home - Present"
-                            ? "bg-purple-100 text-purple-600"
-                            : record.status === "Work from Home + Overtime"
-                            ? "bg-purple-200 text-purple-800"
-                            : record.status === "Work from Home - Half Day"
-                            ? "bg-purple-50 text-purple-500"
-                            : record.status === "Work from Home - Incomplete"
-                            ? "bg-yellow-100 text-yellow-600"
-                            : record.status === "Work from Home - Not Marked"
-                            ? "bg-gray-100 text-gray-600"
-                            : record.status === "Not Yet"
-                            ? "bg-gray-100 text-gray-600"
-                            : "bg-red-100 text-red-600"
-                        }`}>
+                              ? "bg-green-200 text-green-800"
+                              : record.status === "Half-Day"
+                                ? "bg-orange-100 text-orange-600"
+                                : record.status === "Incomplete"
+                                  ? "bg-yellow-100 text-yellow-600"
+                                  : record.status === "Leave"
+                                    ? "bg-blue-100 text-blue-600"
+                                    : record.status === "Work from Home - Present"
+                                      ? "bg-purple-100 text-purple-600"
+                                      : record.status === "Work from Home + Overtime"
+                                        ? "bg-purple-200 text-purple-800"
+                                        : record.status === "Work from Home - Half Day"
+                                          ? "bg-purple-50 text-purple-500"
+                                          : record.status === "Work from Home - Incomplete"
+                                            ? "bg-yellow-100 text-yellow-600"
+                                            : record.status === "Work from Home - Not Marked"
+                                              ? "bg-gray-100 text-gray-600"
+                                              : record.status === "Not Yet"
+                                                ? "bg-gray-100 text-gray-600"
+                                                : "bg-red-100 text-red-600"
+                          }`}>
                           {record.status}
                         </span>
                       </div>
@@ -494,7 +490,7 @@ const AttendanceReport = () => {
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Desktop View - Virtualized List */}
                 <div className="hidden md:block">
                   <List
@@ -509,31 +505,30 @@ const AttendanceReport = () => {
                         <div style={style} className="grid grid-cols-6 border border-gray-200 hover:bg-gray-50">
                           <div className="px-4 py-2">{formatDMY(record.date)}</div>
                           <div className="px-4 py-2">
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                              record.status === "Present"
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === "Present"
                                 ? "bg-green-100 text-green-600"
                                 : record.status === "Present + Overtime"
-                                ? "bg-green-200 text-green-800"
-                                : record.status === "Half-Day"
-                                ? "bg-orange-100 text-orange-600"
-                                : record.status === "Incomplete"
-                                ? "bg-yellow-100 text-yellow-600"
-                                : record.status === "Leave"
-                                ? "bg-blue-100 text-blue-600"
-                                : record.status === "Work from Home - Present"
-                                ? "bg-purple-100 text-purple-600"
-                                : record.status === "Work from Home + Overtime"
-                                ? "bg-purple-200 text-purple-800"
-                                : record.status === "Work from Home - Half Day"
-                                ? "bg-purple-50 text-purple-500"
-                                : record.status === "Work from Home - Incomplete"
-                                ? "bg-yellow-100 text-yellow-600"
-                                : record.status === "Work from Home - Not Marked"
-                                ? "bg-gray-100 text-gray-600"
-                                : record.status === "Not Yet"
-                                ? "bg-gray-100 text-gray-600"
-                                : "bg-red-100 text-red-600"
-                            }`}>
+                                  ? "bg-green-200 text-green-800"
+                                  : record.status === "Half-Day"
+                                    ? "bg-orange-100 text-orange-600"
+                                    : record.status === "Incomplete"
+                                      ? "bg-yellow-100 text-yellow-600"
+                                      : record.status === "Leave"
+                                        ? "bg-blue-100 text-blue-600"
+                                        : record.status === "Work from Home - Present"
+                                          ? "bg-purple-100 text-purple-600"
+                                          : record.status === "Work from Home + Overtime"
+                                            ? "bg-purple-200 text-purple-800"
+                                            : record.status === "Work from Home - Half Day"
+                                              ? "bg-purple-50 text-purple-500"
+                                              : record.status === "Work from Home - Incomplete"
+                                                ? "bg-yellow-100 text-yellow-600"
+                                                : record.status === "Work from Home - Not Marked"
+                                                  ? "bg-gray-100 text-gray-600"
+                                                  : record.status === "Not Yet"
+                                                    ? "bg-gray-100 text-gray-600"
+                                                    : "bg-red-100 text-red-600"
+                              }`}>
                               {record.status}
                             </span>
                           </div>
@@ -556,5 +551,5 @@ const AttendanceReport = () => {
     </div>
   );
 };
- 
+
 export default AttendanceReport;
