@@ -101,8 +101,8 @@ const Login = () => {
           borderRadius: "16px",
           padding: "36px",
           background: "rgba(255, 255, 255, 0.04)",
-          backdropFilter: "blur(1px)",
-          WebkitBackdropFilter: "blur(1px)",
+          backdropFilter: "blur(1.5px)",
+          WebkitBackdropFilter: "blur(1.5px)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
           boxShadow: hovered
             ? "0 10px 40px rgba(255, 255, 255, 0.15)"
@@ -120,13 +120,13 @@ const Login = () => {
             marginBottom: "16px",
             textAlign: "center",
             letterSpacing: "0.8px",
-            color: "#fff",
-            textShadow: "0 4px 12px rgba(0,0,0,0.6)",
+            color: "rgba(255, 255, 255, 0.85)",
+            textShadow: "0 4px 12px rgba(0,0,0,0.4)",
             lineHeight: "1.2",
           }}
         >
           WELCOME TO<br />
-          <span style={{ color: "#E8FDF5", fontSize: "28px" }}>FDEV SOLUTIONS</span>
+          <span style={{ color: "rgba(232, 253, 245, 0.9)", fontSize: "28px" }}>FDEV SOLUTIONS</span>
         </h1>
 
         <p
@@ -185,17 +185,20 @@ const Login = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "12px 14px 12px 42px",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  backdropFilter: "blur(4px)",
-                  WebkitBackdropFilter: "blur(4px)",
-                  color: "#fff",
+                  padding: "14px 14px 14px 44px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.25)",
+                  background: focused.email ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  color: "#ffffff",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.3)",
                   outline: "none",
-                  transition: "all 200ms ease",
+                  transition: "all 300ms ease",
                   boxShadow: focused.email
-                    ? "0 0 0 2px rgba(255, 255, 255, 0.1)"
+                    ? "0 0 0 3px rgba(255, 255, 255, 0.2)"
                     : "none",
                 }}
               />
@@ -259,17 +262,20 @@ const Login = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "12px 50px 12px 42px",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  backdropFilter: "blur(4px)",
-                  WebkitBackdropFilter: "blur(4px)",
-                  color: "#fff",
+                  padding: "14px 50px 14px 44px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.25)",
+                  background: focused.password ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  color: "#ffffff",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.3)",
                   outline: "none",
-                  transition: "all 200ms ease",
+                  transition: "all 300ms ease",
                   boxShadow: focused.password
-                    ? "0 0 0 2px rgba(255, 255, 255, 0.1)"
+                    ? "0 0 0 3px rgba(255, 255, 255, 0.2)"
                     : "none",
                 }}
               />
@@ -411,6 +417,13 @@ const Login = () => {
           .login-container {
              justify-content: center;
              padding: 32px;
+          }
+          input::placeholder {
+             color: rgba(255, 255, 255, 0.5) !important;
+             font-weight: 400;
+          }
+          input:focus::placeholder {
+             color: rgba(255, 255, 255, 0.7) !important;
           }
           @media (max-width: 768px) {
              .login-container {
