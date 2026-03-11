@@ -78,18 +78,17 @@ const Login = () => {
 
   return (
     <div
+      className="login-container"
       style={{
         minHeight: "100vh",
         width: "100%",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        // overlay + background image
-        backgroundImage:
-          "linear-gradient(rgba(2,6,23,0.6), rgba(2,6,23,0.6)), url('/images/download.jpeg')",
-        backgroundSize: "cover",
+        backgroundColor: "#0d2116",
+        backgroundImage: "url('/images/fdev.jpeg')",
+        backgroundSize: "100% 135%",
         backgroundPosition: "center",
-        padding: "32px",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* floating card */}
@@ -97,36 +96,37 @@ const Login = () => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          width: "360px",
+          width: "380px",
           maxWidth: "92%",
-          borderRadius: "14px",
-          padding: "28px",
-          background: "rgba(255,255,255,0.06)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "16px",
+          padding: "36px",
+          background: "rgba(255, 255, 255, 0.04)",
+          backdropFilter: "blur(1px)",
+          WebkitBackdropFilter: "blur(1px)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
           boxShadow: hovered
-            ? "0 20px 60px rgba(2,6,23,0.6)"
-            : "0 10px 30px rgba(2,6,23,0.45)",
+            ? "0 10px 40px rgba(255, 255, 255, 0.15)"
+            : "0 4px 20px rgba(0, 0, 0, 0.3)",
           transform: hovered ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
-          transition: "all 300ms cubic-bezier(.2,.9,.2,1)",
+          transition: "all 500ms cubic-bezier(.2,.9,.2,1)",
           color: "#E8FDF5",
           animation: "fadeIn 700ms ease-out both",
         }}
       >
         <h1
           style={{
-            fontSize: "20px",
-            fontWeight: 700,
-            marginBottom: "12px",
+            fontSize: "24px",
+            fontWeight: 800,
+            marginBottom: "16px",
             textAlign: "center",
-            letterSpacing: "0.6px",
+            letterSpacing: "0.8px",
             color: "#fff",
-            textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+            textShadow: "0 4px 12px rgba(0,0,0,0.6)",
+            lineHeight: "1.2",
           }}
         >
-          WELCOME TO<br></br>
-         FDEV SOLUTIONS 
+          WELCOME TO<br />
+          <span style={{ color: "#E8FDF5", fontSize: "28px" }}>FDEV SOLUTIONS</span>
         </h1>
 
         <p
@@ -187,13 +187,15 @@ const Login = () => {
                   width: "100%",
                   padding: "12px 14px 12px 42px",
                   borderRadius: "10px",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(4px)",
+                  WebkitBackdropFilter: "blur(4px)",
                   color: "#fff",
                   outline: "none",
-                  transition: "box-shadow 180ms, border 180ms",
+                  transition: "all 200ms ease",
                   boxShadow: focused.email
-                    ? "0 6px 18px rgba(0,188,170,0.08)"
+                    ? "0 0 0 2px rgba(255, 255, 255, 0.1)"
                     : "none",
                 }}
               />
@@ -259,13 +261,15 @@ const Login = () => {
                   width: "100%",
                   padding: "12px 50px 12px 42px",
                   borderRadius: "10px",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(4px)",
+                  WebkitBackdropFilter: "blur(4px)",
                   color: "#fff",
                   outline: "none",
-                  transition: "box-shadow 180ms, border 180ms",
+                  transition: "all 200ms ease",
                   boxShadow: focused.password
-                    ? "0 6px 18px rgba(0,188,170,0.08)"
+                    ? "0 0 0 2px rgba(255, 255, 255, 0.1)"
                     : "none",
                 }}
               />
@@ -344,19 +348,23 @@ const Login = () => {
               marginBottom: "16px",
             }}
           >
-           
+
 
             <button
               type="button"
               onClick={() => navigate("/forgot-password")}
+              onMouseEnter={(e) => (e.target.style.color = "#C1F7E6")}
+              onMouseLeave={(e) => (e.target.style.color = "#BFDCD3")}
               style={{
                 background: "transparent",
                 border: "none",
-                color: "#1370daff",
+                color: "#BFDCD3",
                 fontSize: "13px",
-                textDecoration: "underline",
+                textDecoration: "none",
                 cursor: "pointer",
-                padding: 0,
+                padding: "2px 4px",
+                transition: "color 200ms ease",
+                fontWeight: "500",
               }}
             >
               Forgot password?
@@ -366,40 +374,52 @@ const Login = () => {
           {/* submit */}
           <div style={{ marginBottom: "6px" }}>
             <button
-  type="submit"
-  disabled={loading}
-  style={{
-    width: "100%",
-    padding: "12px",
-    borderRadius: "10px",
-    border: "none",
-    cursor: loading ? "not-allowed" : "pointer",
-    background: loading
-      ? "linear-gradient(90deg,#4da3ff,#1d6fe0)"
-      : "linear-gradient(90deg,#1e90ff,#0066cc)", // Blue gradient
-    color: "#fff",
-    fontWeight: 700,
-    fontSize: "15px",
-    boxShadow: loading
-      ? "0 6px 18px rgba(0,0,0,0.15)"
-      : "0 10px 30px rgba(0,102,204,0.28)",
-    transform: hovered ? "translateY(-2px)" : "none",
-    transition: "all 220ms ease",
-  }}
->
-  {loading ? "Signing in..." : "Login"}
-</button>
+              type="submit"
+              disabled={loading}
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "10px",
+                border: "none",
+                cursor: loading ? "not-allowed" : "pointer",
+                background: loading
+                  ? "linear-gradient(90deg,#4da3ff,#1d6fe0)"
+                  : "linear-gradient(90deg,#1e90ff,#0066cc)", // Blue gradient
+                color: "#fff",
+                fontWeight: 700,
+                fontSize: "15px",
+                boxShadow: loading
+                  ? "0 6px 18px rgba(0,0,0,0.15)"
+                  : "0 10px 30px rgba(0,102,204,0.28)",
+                transform: hovered ? "translateY(-2px)" : "none",
+                transition: "all 220ms ease",
+              }}
+            >
+              {loading ? "Signing in..." : "Login"}
+            </button>
 
           </div>
 
           {/* small note */}
-         
+
         </form>
       </div>
 
       {/* local style for keyframes */}
       <style>
         {`
+          .login-container {
+             justify-content: center;
+             padding: 32px;
+          }
+          @media (max-width: 768px) {
+             .login-container {
+                justify-content: center;
+                padding: 32px 16px;
+                background-size: contain !important;
+                background-position: center !important;
+             }
+          }
           @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(6px) scale(0.995); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
